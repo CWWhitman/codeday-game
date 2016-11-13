@@ -4,6 +4,7 @@ import game
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 
 SIZE_X = 30
 SIZE_Y = 15
@@ -176,9 +177,6 @@ def main():
         else:
             mousePressed = False
 
-        """if event.type == pygame.MOUSEBUTTONUP:
-            mousePressed = False"""
-
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 menu.changeSelection(menu.selected-1)
@@ -186,8 +184,8 @@ def main():
             if event.key == pygame.K_s:
                 menu.changeSelection(menu.selected+1)
 
-            if event.key == pygame.K_j:
-                print menu.selected, activeTile.getName(), start
+            if event.key == pygame.K_SPACE:
+                done = True
 
             if event.key == pygame.K_c:
                 menuGroup.add(clear)
@@ -240,7 +238,10 @@ def main():
         pygame.display.flip()
  
         clock.tick(60)
-
+        
+    font = pygame.font.SysFont('Calibri', 50, True, False)
+    screen.blit(font.render("Waiting for players...", True, RED), [0, 0])
+    pygame.display.flip()
     levelBuilt(convirtList(tiles))
     game.main()
 
