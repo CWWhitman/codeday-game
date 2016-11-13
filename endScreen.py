@@ -49,7 +49,7 @@ def main(winner):
     done = False
 
     font = pygame.font.SysFont('Calibri', 30, True, False)
-    screen.blit(font.render(("Winner! : " + wwinner), True, BLACK), [400,10])
+    screen.blit(font.render(("Winner! : " + winner), True, BLACK), [400,10])
 
     
 
