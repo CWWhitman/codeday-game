@@ -52,10 +52,10 @@ class Player(pygame.sprite.Sprite):
 
     def walk(self, dir):
         self.frames_walked += 1
-        if self.frames_walked < 60:
-            speed = (self.frames_walked//12)*dir
+        if self.frames_walked < 30:
+            speed = (self.frames_walked//3.75)*dir
         else:
-            speed = 5*dir
+            speed = 8*dir
         self.rect.move_ip(speed, 0)
 
     def update(self):
