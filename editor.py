@@ -142,15 +142,27 @@ def main():
             allTiles.add(tile)
         tiles.append(tilesRow)
 
+    activeTile = tiles[0][0]
+    
     clock = pygame.time.Clock()
 
     pygame.mouse.set_visible(True)
+    mousePressed = False
  
     done = False
 
     while not done:
 
         event = pygame.event.poll()
+
+        mouseX = pygame.mouse.get_pos()[0]//30
+        if mouseX > 29:
+            mouseX = 29
+        mouseY = pygame.mouse.get_pos()[1]//15
+        if mouseY > 14:
+            mouseY = 14
+        print mouseX, mouseY
+        activeTile = tiles[mouseX][mouseY]
 
         if event.type == pygame.QUIT:
             done = True
@@ -174,6 +186,9 @@ def main():
             menu.changeX(0)
         else:
             menu.changeX((SIZE_X - 1) * 30)
+
+        if mousePressed:
+            activeTile.changeImage(selected)
 
         screen.fill(WHITE)
  
