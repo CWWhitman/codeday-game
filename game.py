@@ -14,7 +14,8 @@ class gameplay:
     """The Main PyMan Class - This class handles the main
     initialization and creating of the Game."""
 
-    def __init__(self, width=900,height=450):
+    def __init__(self, worldf,width=900,height=450):
+        self.worldf = worldf
         self.state = {"x": 12}
         pygame.init()
         pygame.display.set_caption('videogames')
@@ -33,8 +34,8 @@ class gameplay:
 
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
-        for x, _ in enumerate(lev):
-            for y, char in enumerate(lev[x]):
+        for x, _ in enumerate(self.worldf):
+            for y, char in enumerate(self.worldf[x]):
                 pos = (y * 30, x * 30, 30,30)
                 if int(char):
                     color = (255,0,100)
@@ -50,11 +51,11 @@ class gameplay:
     #todo, fix 3 way collision
     def mainloop(self):
         clock = pygame.time.Clock()
-
         while True:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
+                a.player_on_wall = False
                 brec = deepcopy(a.rect)
                 a.rect.h = 4
                 a.rect.w = 8
@@ -78,7 +79,6 @@ class gameplay:
             intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
             for a in intd:
                 player, block = a,intd[a]
-                print player,block
                 yes = False
                 if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
@@ -111,7 +111,7 @@ class gameplay:
                         player.rect.y = player.rect.y - (blockf.h if player.above_land else -1 * blockf.h)
                         player.on_ground = True
                     else:
-                        player.on_wall = True
+                        player.player_on_wall = True
                         #left/r intesection
                         player.vel_x = 0
                         player.rect.x = player.rect.x - (blockf.w if not player.world_is_left else -1 * blockf.w)
@@ -130,5 +130,5 @@ class gameplay:
             clock.tick(60)
 
 if __name__ == '__main__':
-    main = gameplay()
+    main = gameplay(lev)
     main.mainloop()
