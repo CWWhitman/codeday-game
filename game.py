@@ -31,6 +31,8 @@ class gameplay:
 
         tommy = Player()
         tommy.on_ground = False
+        self.spritegroup = pygame.sprite.Group()
+        self.spritegroup.add(tommy)
         tommy.jump()
         self.players.append(tommy)
         pygame.display.update()
@@ -40,7 +42,7 @@ class gameplay:
             for a in self.players:
                 a.debug()
                 a.update()
-                pygame.draw.rect(self.screen, (0,255,255), (a.pos_x, -1 * a.pos_y, 30,30))
+                pygame.draw.rect(self.screen, (0,255,255), (a.pos_x,a.pos_y, 30,30))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()

@@ -4,6 +4,7 @@ jump_key_pressed = False
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
+        super(Player, self).__init__()
         self.health = 2
         self.alive = True
 
