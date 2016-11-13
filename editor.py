@@ -15,11 +15,11 @@ blocksSelected = ['res/blankBlockSelected.png', 'res/SpikyWheelSelect.png', 'res
 
 class Background(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, backg):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('res/scaledbg.png')
+        self.image = pygame.image.load(backg)
 
         self.rect = self.image.get_rect()
         self.rect.y = 0
@@ -129,7 +129,7 @@ def main():
     menuGroup.add(menu)
     clear = Clear()
 
-    background = Background()
+    background = Background(backg)
     allSprites.add(background)
 
     tiles = []
@@ -243,7 +243,7 @@ def main():
     screen.blit(font.render("Waiting for players...", True, RED), [0, 0])
     pygame.display.flip()
     networking.levelBuilt(convertList(tiles))
-    game1 = gameplay()
+    game1 = gameplay(backg)
     game1.mainloop()
 
 def convertList(inputList):

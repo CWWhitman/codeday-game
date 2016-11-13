@@ -6,13 +6,14 @@ WHITE = (255, 255, 255)
 buttons = ['res/startgamee.png']
 title = 'res/title.png'
 
+
 class Background(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, backg):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('res/scaledbg.png')
+        self.image = pygame.image.load(backg)
 
         self.rect = self.image.get_rect()
         self.rect.y = 0
@@ -43,6 +44,8 @@ class MenuTitle(pygame.sprite.Sprite):
         self.rect.x = 100
     
 def main():
+    backg = 'res/scaledbg.png'
+    
     pygame.init()
     screen = pygame.display.set_mode([900, 450])
 
@@ -51,7 +54,7 @@ def main():
     backgroundSprites = pygame.sprite.Group()
     activeSprites = pygame.sprite.Group()
 
-    background = Background()
+    background = Background(backg)
     backgroundSprites.add(background)
 
     clock = pygame.time.Clock()
@@ -65,6 +68,9 @@ def main():
 
     while not done:
 
+        background = Background(backg)
+        backgroundSprites.add(background)
+
         event = pygame.event.poll()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -75,6 +81,12 @@ def main():
 
         elif event.type == pygame.QUIT:
             done = True
+
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_b:
+                backgroundSprites.empty()
+                backg = 'res/BluBack.png'
+                
             
         screen.fill(WHITE)
  

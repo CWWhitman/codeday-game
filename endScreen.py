@@ -11,7 +11,7 @@ title = 'res/title.png'
 
 class Background(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, backg):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
@@ -35,7 +35,7 @@ class MenuButton(pygame.sprite.Sprite):
 
 
 
-def main(winner):
+def main(winner, backg):
     
     pygame.init()
     screen = pygame.display.set_mode([900, 450])
@@ -45,7 +45,7 @@ def main(winner):
     backgroundSprites = pygame.sprite.Group()
     activeSprites = pygame.sprite.Group()
 
-    background = Background()
+    background = Background(backg)
     backgroundSprites.add(background)
 
     clock = pygame.time.Clock()

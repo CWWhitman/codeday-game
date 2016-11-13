@@ -22,7 +22,8 @@ class gameplay:
     """The Main PyMan Class - This class handles the main
     initialization and creating of the Game."""
 
-    def __init__(self):
+    def __init__(self, backg):
+        self.backg = backg 
         self.worldf = networking.getLevels()
         self.currentWorld = 0
         self.startTime = time.time()
@@ -33,7 +34,7 @@ class gameplay:
         #self.width = width
         #self.height = height
         self.screen = pygame.display.set_mode((900, 450))
-        self.background_screen = pygame.image.load('res/scaledbg.png')
+        self.background_screen = pygame.image.load(backg)
         self.players = pygame.sprite.Group()
         self.world = pygame.sprite.Group()
         self.setupgame()
@@ -43,7 +44,7 @@ class gameplay:
         self.idler = pygame.transform.flip(self.idle, True, False)
 
     def setupgame(self):
-        self.background_screen = pygame.image.load('res/scaledbg.png')
+        self.background_screen = pygame.image.load(self.backg)
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
         self.players.empty()
         self.world.empty()
@@ -114,7 +115,7 @@ class gameplay:
                         self.currentWorld += 1
                         self.setupgame()
                     else:
-                        endScreen.main(networking.roundFinished(time.time() - self.startTime))
+                        endScreen.main(networking.roundFinished(time.time() - self.startTime), self.backg)
                 yes = False
                 if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):

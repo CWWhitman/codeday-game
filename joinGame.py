@@ -5,17 +5,17 @@ BLACK = (0, 0, 0)
 
 class Background(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, backg):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('res/scaledbg.png')
+        self.image = pygame.image.load(backg)
 
         self.rect = self.image.get_rect()
         self.rect.y = 0
         self.rect.x = 0
 
-def main():
+def main(backg):
     pygame.init()
     screen = pygame.display.set_mode([900, 450])
 
@@ -23,7 +23,7 @@ def main():
 
     allSprites = pygame.sprite.Group()
 
-    background = Background()
+    background = Background(backg)
     allSprites.add(background)
 
     ip = eztext.Input(maxlength=45, color=BLACK, prompt='enter ip: ')
@@ -82,7 +82,7 @@ def main():
             settings.connectionSettings['port'] = port.value
             settings.connectionSettings['user'] = name.value
             networking.startGame()
-            editor.main()
+            editor.main(backg)
             pygame.quit()
             
  
