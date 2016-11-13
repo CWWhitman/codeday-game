@@ -7,11 +7,11 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 PURPLE = (255, 0, 255)
 
-SIZE_X = 50
-SIZE_Y = 25
+SIZE_X = 30
+SIZE_Y = 15
 
-blocks = ['spikes.png']
-blocksSelected = ['spikesSelected.png']
+blocks = ['res/triangleBlock.png', 'res/squareBlock.png']
+blocksSelected = ['res/triangleBlockSelected.png', 'res/squareBlockSelected.png']
 
 class Background(pygame.sprite.Sprite):
 
@@ -19,7 +19,7 @@ class Background(pygame.sprite.Sprite):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('bg.png')
+        self.image = pygame.image.load('res/scaledbg.png')
 
         self.rect = self.image.get_rect()
         self.rect.y = 0
@@ -60,7 +60,7 @@ class Menu(pygame.sprite.Sprite):
         self.selected = selected
         pygame.sprite.Sprite.__init__(self)
         
-        self.changeX(x, selected)
+        self.changeX(x)
 
     def changeX(self, x):
 
@@ -124,19 +124,20 @@ def main():
     tiles = []
     allTiles = pygame.sprite.Group()
     
-    """for i in range(SIZE_X):
+    for i in range(SIZE_X):
         tilesRow = []
         for j in range(SIZE_Y):
-            tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'blankBlock.png')
+            tile = Tile((i)*30, (j)*30, 'res/blankBlock.png')
             tilesRow.append(tile)
             allTiles.add(tile)
-        tiles.append(tilesRow)"""
+        tiles.append(tilesRow)
 
-    #menu = Menu(0, 0)
+    menu = Menu(0, 0)
+    allSprites.add(menu)
 
     clock = pygame.time.Clock()
 
-    #pygame.mouse.set_visible(True)
+    pygame.mouse.set_visible(True)
  
     done = False
 
@@ -162,12 +163,11 @@ def main():
             if event[1] == pygame.K_s:
                 menu.changeSelection(menu.selection+1)
 
-        if pygame.mouse.pos()[0] >= (SIZE_X / 2):
+        if pygame.mouse.get_pos()[0] >= (SIZE_X / 2):
             menu.changeX(0)
         else:
             menu.changeX(SIZE_X - 30)
 
-<<<<<<< HEAD
         screen.fill(WHITE)
  
         allSprites.draw(screen)
@@ -181,6 +181,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-=======
-        if mousePresse
->>>>>>> db1ee56de9ad08465602aff5c52f07c61fb49468
