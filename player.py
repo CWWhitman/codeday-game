@@ -8,9 +8,7 @@ class Player(pygame.sprite.Sprite):
         self.health = 2
         self.alive = True
 
-        self.hit_x, self.hit_y = 30.0, 30.0
-        self.draw_x, self.draw_y = 30.0, 30.0
-        self.pos_x, self.pos_y = 0.0, 0.0
+        self.rect = pygame.Rect(0, 0, 30, 30)
         self.vel_x, self.vel_y = 0.0, 0.0
         self.accl_x, self.accl_y = 0.0, 0.0
 
@@ -27,7 +25,7 @@ class Player(pygame.sprite.Sprite):
         if self.on_ground:
             self.on_ground = False
 
-        self.accl_y += 2/self.jump_frame
+        self.vel_y += 2/self.jump_frame
         if self.jump_frame > 15:
             self.jump_frame = 1.0
             self.holding_jump = False
@@ -41,25 +39,22 @@ class Player(pygame.sprite.Sprite):
             self.vel_y, self.accl_y = 0.0, 0.0
 
     def apply_vel(self):
-        self.pos_x += self.vel_x
-        self.pos_y += self.vel_y
-
+        self.rect.move_ip(self.vel_x, self.vel_y)
+        
     def gravity(self):
         if not self.on_ground:
-            self.accl_y -= 1.0
-    def debug(self):
-        print "d", self.pos_x, self.pos_y, self.vel_x, self.vel_y, self.accl_x, self.accl_y
+            self.accl_y = -1.0
 
     def update(self):
-        self.apply_accel()
-        self.apply_vel()
-        self.gravity()
 
         if not jump_key_pressed and self.holding_jump:
             self.holding_jump = False
 
         if (jump_key_pressed and self.on_ground) or self.holding_jump:
             jump()
+        self.apply_accel()
+        self.apply_vel()
+        self.gravity()
 
 #tommy = Player()
 #def show():
