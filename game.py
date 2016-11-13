@@ -10,13 +10,14 @@ class gameplay:
 
     def __init__(self, width=900,height=450):
         self.state = {"x": 12}
-        self.players = []
         pygame.init()
         pygame.display.set_caption('videogames')
         self.basicfont = pygame.font.SysFont(None, 48)
         self.width = width
         self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.players = pygame.sprite.Group()
+        self.world = pygame.sprite.Group()
         self.setupgame()
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
@@ -35,7 +36,6 @@ class gameplay:
         self.spritegroup = pygame.sprite.Group()
         self.spritegroup.add(tommy)
         tommy.jump()
-        self.players.append(tommy)
         pygame.display.update()
 
     def mainloop(self):
