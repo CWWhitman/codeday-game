@@ -1,7 +1,5 @@
 import pygame
 
-jump_key_pressed = False
-
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super(Player, self).__init__()
@@ -14,6 +12,7 @@ class Player(pygame.sprite.Sprite):
 
         self.on_ground = True
         self.jump_frame = 1
+        self.jkp = False
         self.holding_jump = False
 
 
@@ -25,8 +24,8 @@ class Player(pygame.sprite.Sprite):
         if self.on_ground:
             self.on_ground = False
 
-        self.vel_y += -2/self.jump_frame
-        if self.jump_frame > 15:
+        self.vel_y += -(60 - self.jump_frame)/3
+        if self.jump_frame > 60:
             self.jump_frame = 1.0
             self.holding_jump = False
         else:
@@ -40,22 +39,33 @@ class Player(pygame.sprite.Sprite):
 
     def apply_vel(self):
         self.rect.move_ip(self.vel_x, self.vel_y)
-        
+
     def gravity(self):
         if not self.on_ground:
             self.accl_y = 1.0
-    
+
     def move_to_floor(self, correction):
         self.rect.move_ip(0, -correction)
         self.accl_y, self.vel_y, self.on_ground = 0, 0, True
 
     def update(self):
+        pygame.event.pump()
+        k = pygame.key.get_pressed()
+        if k[pygame.K_UP]:
+            self.jkp = True
+        else:
+            self.jkp = False
 
-        if not jump_key_pressed and self.holding_jump:
+        if self.on_ground and self.jkp:
+            self.holding_jump = True
+
+        if not self.jkp and self.holding_jump:
             self.holding_jump = False
 
-        if (jump_key_pressed and self.on_ground) or self.holding_jump:
-            jump()
+        if (self.jkp and self.on_ground) or self.holding_jump:
+            self.jump()
+
+
         self.apply_accel()
         self.apply_vel()
         self.gravity()
