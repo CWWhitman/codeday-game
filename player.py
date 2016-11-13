@@ -67,7 +67,6 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         pygame.event.pump()
         k = pygame.key.get_pressed()
-        print self.player_on_wall
         if k[pygame.K_UP] and (self.frames_jumped or self.on_ground):
             self.jump()
         else:
