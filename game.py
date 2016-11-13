@@ -69,6 +69,10 @@ class gameplay:
                     player.vel_y = 0
                     player.rect.y = player.rect.y - blockf.h
                     player.on_ground = True
+                else:
+                    #left/r intesection
+                    player.vel_x = 0
+                    player.rect.x = player.rect.x - blockf.w
 
             for a in self.players:
                 pygame.draw.rect(self.screen, (0,255,255), a.rect)
