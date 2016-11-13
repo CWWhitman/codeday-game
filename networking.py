@@ -70,6 +70,7 @@ def updatePlayerPositions(playerPosition):
 
 #called when the player finishes the round, takes in his time to finish and returns the winner of the round
 def roundFinished(timeToFinish):
+    conn = r.connect(settings.ip, int(settings.port))
     r.table('users').filter({'username' : settings.user}).update({'time': timeToFinish}).run(conn)
     r.table('users').filter({'username' : settings.user}).update({'done': True}).run(conn)
 
