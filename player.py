@@ -7,6 +7,7 @@ class Player(pygame.sprite.Sprite):
         self.alive = True
         self.above_land = None
         self.world_is_left = None
+        self.player_on_wall = None
 
         self.rect = pygame.Rect(x, y, 30, 30)
         self.vel_x, self.vel_y = 0.0, 0.0

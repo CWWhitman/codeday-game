@@ -65,7 +65,7 @@ class gameplay:
                 a.rect.w = 4
                 a.rect.left = brec.left - 4
                 a.rect.top = brec.top + 11
-                pygame.draw.rect(self.screen, (255,255,0), a.rect)
+                #pygame.draw.rect(self.screen, (255,255,0), a.rect)
                 if not pygame.sprite.spritecollideany(a, self.world):
                     a.world_is_left = False
                 else:
@@ -96,19 +96,21 @@ class gameplay:
                 #pygame.draw.rect(self.screen, (255,255,0), blockf)
                 if yes:
                     # 3way
-                    player.rect.x = player.rect.x - player.vel_x
-                    player.rect.y = player.rect.y - player.vel_y
-                    player.vel_y = player.vel_y - player.accl_y
-                    player.vel_x = player.vel_x - player.accl_x
-                if blockf.w > blockf.h:
-                    #top/bottom int
-                    player.vel_y = 0
-                    player.rect.y = player.rect.y - (blockf.h if player.above_land else -1 * blockf.h)
-                    player.on_ground = True
+                    player.rect.x = player.rect.x - player.vel_x - 0.001
+                    player.rect.y = player.rect.y - player.vel_y - 0.001
+                    player.vel_y = player.vel_y - player.accl_y - 0.001
+                    player.vel_x = player.vel_x - player.accl_x - 0.001
                 else:
-                    #left/r intesection
-                    player.vel_x = 0
-                    player.rect.x = player.rect.x - (blockf.w if not player.world_is_left else -1 * blockf.w)
+                    if blockf.w > blockf.h:
+                        #top/bottom int
+                        player.vel_y = 0
+                        player.rect.y = player.rect.y - (blockf.h if player.above_land else -1 * blockf.h)
+                        player.on_ground = True
+                    else:
+                        player.on_wall = True
+                        #left/r intesection
+                        player.vel_x = 0
+                        player.rect.x = player.rect.x - (blockf.w if not player.world_is_left else -1 * blockf.w)
 
             for a in self.players:
                 pygame.draw.rect(self.screen, (0,255,255), a.rect)
