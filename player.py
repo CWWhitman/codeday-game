@@ -60,7 +60,7 @@ class Player(pygame.sprite.Sprite):
             speed = (self.frames_walked//1.25)*dir
         else:
             speed = 8*dir
-        self.rect.move_ip(speed, 0)
+        self.vel_x = speed
 
     def update(self):
         pygame.event.pump()
@@ -77,6 +77,8 @@ class Player(pygame.sprite.Sprite):
         else:
             self.frames_walked = 0
             self.last_dir = 0
+            if self.on_ground:
+                self.vel_x = 0
 
         self.apply_accel()
         self.apply_vel()
