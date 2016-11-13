@@ -58,13 +58,17 @@ class gameplay:
             for a in intd:
                 player, block = a,intd[a]
                 print player,block
+                yes = False
                 if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
                         r = block[0].rect.clip(player.rect)
                         r1 = block[1].rect.clip(player.rect)
                         blockf = r.union(r1)
                 if len(block) in [3,4]:
+                    yes = True
                     r1 = block[0].rect.clip(player.rect)
+                    r2 = block[1].rect.clip(player.rect)
+                    r3 = block[2].rect.clip(player.rect)
                     # get all the recs
                     # iterate through them sperately, correct any two of them not unioned
                 if len(block) == 1:
@@ -73,6 +77,12 @@ class gameplay:
                 # deal with only one of the collided world blocks
                 # ltaer, deal with one, then check the other one and deal if needed
                 #pygame.draw.rect(self.screen, (255,255,0), blockf)
+                if yes:
+                    # 3way
+                    player.rect.x = player.rect.x - player.vel_x
+                    player.rect.y = player.rect.y - player.vel_y
+                    player.vel_y = player.vel_y - player.accl_y
+                    player.vel_x = player.vel_x - player.accl_x
                 if blockf.w > blockf.h:
                     #top/bottom int
                     player.vel_y = 0
