@@ -46,7 +46,7 @@ class gameplay:
         self.players.empty()
         self.world.empty()
         self.startPos = (0,200)
-        worldNew = self.worldf[currentWorld]
+        worldNew = self.worldf[self.currentWorld]
         for x, _ in enumerate(worldNew):
             for y, char in enumerate(worldNew[x]):
                 pos = (x * 30, y * 30)
