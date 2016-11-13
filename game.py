@@ -73,7 +73,7 @@ class gameplay:
             for a in self.players:
                 a.update()
                 event = pygame.event.poll()
-                if event.type == pygame.KEYBOARD:
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         a.rect.x = self.startPos[0]
                         a.rect.y = self.startPos[1]
