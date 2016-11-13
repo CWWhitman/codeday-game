@@ -134,17 +134,29 @@ def main():
 
     menu = Menu(0, 0)
 
+    activeTile = tiles[0][0]
+
     allSprites.add(menu)
 
     clock = pygame.time.Clock()
 
     pygame.mouse.set_visible(True)
+    mousePressed = False
  
     done = False
 
     while not done:
 
         event = pygame.event.poll()
+
+        mouseX = pygame.mouse.get_pos()[0]//30
+        if mouseX > 29:
+            mouseX = 29
+        mouseY = pygame.mouse.get_pos()[1]//15
+        if mouseY > 14:
+            mouseY = 14
+        print mouseX, mouseY
+        activeTile = tiles[mouseX][mouseY]
 
         if event.type == pygame.QUIT:
             done = True
@@ -168,6 +180,9 @@ def main():
             menu.changeX(0)
         else:
             menu.changeX(SIZE_X - 30)
+
+        if mousePressed:
+            activeTile.changeImage(selected)
 
         screen.fill(WHITE)
  
