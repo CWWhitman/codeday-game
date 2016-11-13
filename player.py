@@ -108,18 +108,18 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         pygame.event.pump()
         k = pygame.key.get_pressed()
-        if k[pygame.K_UP] and (self.frames_jumped or self.on_ground):
+        if k[pygame.K_w] and (self.frames_jumped or self.on_ground):
             self.jump()
-        elif k[pygame.K_UP] and self.player_on_wall and not self.on_ground:
+        elif k[pygame.K_w] and self.player_on_wall and not self.on_ground:
             self.frames_jumped = 0
             self.jump()
         else:
             self.frames_jumped = 0
 
-        if k[pygame.K_LEFT]:
+        if k[pygame.K_a]:
             self.walk(-1)
             self.orientation_r = False
-        elif k[pygame.K_RIGHT]:
+        elif k[pygame.K_d]:
             self.walk(1)
             self.orientation_r = True 
             
