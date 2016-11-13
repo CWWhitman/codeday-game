@@ -25,9 +25,9 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         self.frames_jumped += 1
-        self.vel_y += -10/self.frames_jumped
+        self.vel_y += -5/self.frames_jumped
         self.on_ground = False
-        if self.frames_jumped > 10:
+        if self.frames_jumped > 15:
             self.frames_jumped = 0
 
     def apply_accel(self):
@@ -41,7 +41,7 @@ class Player(pygame.sprite.Sprite):
 
     def gravity(self):
         if not self.on_ground:
-            self.accl_y = 1.5
+            self.accl_y = 1
 
     def move_to_floor(self, correction):
         self.rect.move_ip(0, -correction)
