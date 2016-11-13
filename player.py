@@ -1,7 +1,7 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x, y, ghost=False):
         super(Player, self).__init__()
         self.health = 2
         self.alive = True
@@ -25,6 +25,8 @@ class Player(pygame.sprite.Sprite):
         self.state = "idle"
 
         self.anim_timer = 0
+
+        self.ghost = ghost
 
         #images
         self.idle = pygame.image.load("res/idle.png")
@@ -100,10 +102,12 @@ class Player(pygame.sprite.Sprite):
                             "run2":self.run2,
                             "run2r":self.run2r,
             }
-
-        return name_to_image[state]
                             
-                            
+        image = name_to_image[state]
+        if self.ghost:
+            alpha = 128
+            return image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
+        return image                 
 
     def update(self):
         pygame.event.pump()
@@ -131,7 +135,7 @@ class Player(pygame.sprite.Sprite):
         
         if self.on_ground:
             if not self.vel_x:
-                self.state = "idle"
+                #self.state = "idle"
         else:
             if self.vel_y < 0:
                 self.state = "jumpup"
