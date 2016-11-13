@@ -19,7 +19,7 @@ class Background(pygame.sprite.Sprite):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('res/bg.png')
+        self.image = pygame.image.load('bg.png')
 
         self.rect = self.image.get_rect()
         self.rect.y = 0
@@ -127,7 +127,7 @@ def main():
     """for i in range(SIZE_X):
         tilesRow = []
         for j in range(SIZE_Y):
-            tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'res/blankBlock.png')
+            tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'blankBlock.png')
             tilesRow.append(tile)
             allTiles.add(tile)
         tiles.append(tilesRow)"""
