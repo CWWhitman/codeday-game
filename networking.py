@@ -84,9 +84,8 @@ def roundFinished(timeToFinish):
     r.table('users').filter({'username' : settings.connectionSettings['user']}).update({'time': timeToFinish}).run(conn)
     r.table('users').filter({'username' : settings.connectionSettings['user']}).update({'done': True}).run(conn)
 
-    waiting = True
 
-    while waiting:
+    while True:
         numPlayersCursor = r.table('users').filter({'type' : 'numUsers'}).run(conn)
         numPlayersList = list(numPlayersCursor)
         numPlayers = numPlayersList[0]['numUsers']
@@ -100,12 +99,9 @@ def roundFinished(timeToFinish):
                 if document['time'] < fastest:
                     fastest = document['time']
                     winner = document['username']
-                else:
-                    pass
+            return winner
         else:
             time.sleep(1)
-        waiting = False
-        return winner
 
 
 #if the same crew of people want to play again call this, and then jump into the level editor
