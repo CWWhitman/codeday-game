@@ -93,13 +93,14 @@ def roundFinished(timeToFinish):
         numFinishedList = list(numFinishedCursor)
         numFinished = len(numFinishedList)
         if numPlayers == numFinished:
-            players = r.table('users').filter({'type' : 'player'}).run(conn)
-            fastest = 99999
-            for document in players:
-                if document['time'] < fastest:
-                    fastest = document['time']
-                    winner = document['username']
-            return winner
+            players = r.table('users').filter({'type' : 'player'}).sort(index='time').run(conn)
+            playersList = list(players)
+            return playersList
+#           for document in players:
+#               if document['time'] < fastest:
+#                    fastest = document['time']
+#                    winner = document['username']
+#            return winner
         else:
             time.sleep(1)
 
