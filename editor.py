@@ -6,7 +6,7 @@ WHITE = (255, 255, 255)
 SIZE_X = 30
 SIZE_Y = 15
 
-blocks = ['res/blankBlock1.png', 'res/triangleBlock.png', 'res/squareBlock.png']
+blocks = ['res/blankBlock1.png', 'res/triangleBlock.png', 'res/squareBlock.png', 'res/startBlock.png', 'res/finishBlock.png']
 blocksSelected = ['res/blankBlockSelected.png', 'res/triangleBlockSelected.png', 'res/squareBlockSelected.png']
 
 class Background(pygame.sprite.Sprite):
@@ -147,6 +147,9 @@ def main():
 
     pygame.mouse.set_visible(True)
     mousePressed = False
+
+    start = False
+    end = False
  
     done = False
 
@@ -164,13 +167,14 @@ def main():
 
         if event.type == pygame.QUIT:
             done = True
-        
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if pygame.mouse.get_pressed()[0]:
-                mousePressed = True
 
-        if event.type == pygame.MOUSEBUTTONUP:
+        if pygame.mouse.get_pressed()[0]:
+            mousePressed = True
+        else:
             mousePressed = False
+
+        """if event.type == pygame.MOUSEBUTTONUP:
+            mousePressed = False"""
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
@@ -178,11 +182,6 @@ def main():
 
             if event.key == pygame.K_s:
                 menu.changeSelection(menu.selected+1)
-
-            if event.key == pygame.K_j:
-                myList = convirtList(tiles)
-                for x in range(SIZE_X):
-                    print myList[x]
 
             if event.key == pygame.K_c:
                 menuGroup.add(clear)
@@ -211,7 +210,15 @@ def main():
         else:
             menu.changeX((SIZE_X - 1) * 30)
 
-        if mousePressed:
+        if mousePressed and blocks[menu.selected] == 'startBlock.png' and not start:
+            activeTile.changeImage(blocks[menu.selected])
+            start = True;
+
+        elif mousePressed and blocks[menu.selected] == 'finishBlock.png' and not end:
+            activeTile.changeImage(blocks[menu.selected])
+            end = True;
+            
+        elif mousePressed:
             activeTile.changeImage(blocks[menu.selected])
  
         allSprites.draw(screen)
