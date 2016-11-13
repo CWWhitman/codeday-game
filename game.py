@@ -72,7 +72,7 @@ class gameplay:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
-                if a.rect.x > 900 or a.rect.x < 0 or a.rect.y >= 450 or a.rect.y <= 0 or python.key.K_SPACE:
+                if a.rect.x > 900 or a.rect.x < 0 or a.rect.y >= 450 or a.rect.y <= 0 or pygame.key.K_SPACE:
                     player.rect.x = self.startPos[0]
                     player.rect.y = self.startPos[1]
                 a.player_on_wall = False
