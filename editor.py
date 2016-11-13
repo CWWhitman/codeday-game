@@ -172,25 +172,14 @@ def main():
             if pygame.mouse.get_pressed()[0]:
                     mousePressed = False
 
-<<<<<<< HEAD
-            elif event.type == KEYDOWN:
-                if event[1] == K_w:
-                    menu.changeSelection(menu.selection-1)
-
-                if event[1] == K_s:
-                    menu.changeSelection(menu.selection+1)
-                    
-            if pygame.mouse.pos()[0] >= SIZE_X / 2:
-                menu.changeX(0)
-            else:
-                menu.changeX(SIZE_X - 30)
-=======
         elif event.type == KEYDOWN:
             if event[1] == K_w:
-                tileMenu.change(tileMenu.x)
+                menu.changeSelection(menu.selection-1)
+
+            if event[1] == K_s:
+                menu.changeSelection(menu.selection+1)
 
         if pygame.mouse.pos()[0] >= (SIZE_X / 2):
             menu.changeX(0)
         else:
             menu.changeX(SIZE_X - 30)
->>>>>>> cae9b12d2cc641f65e7acf0b42892c5cf325817f
