@@ -17,6 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.frames_jumped = 0 
 
         self.frames_walked = 0
+        self.last_dir = 0
 
 
     def spawn(self, x, y):
@@ -48,6 +49,11 @@ class Player(pygame.sprite.Sprite):
         self.accl_y, self.vel_y, self.on_ground = 0, 0, True
 
     def walk(self, dir):
+        if not self.last_dir:
+            pass
+        elif self.last_dir != dir:
+            self.frames_walked = 0
+
         self.frames_walked += 1
         if self.frames_walked < 10:
             speed = (self.frames_walked//1.25)*dir
@@ -62,14 +68,14 @@ class Player(pygame.sprite.Sprite):
             self.jump()
         else:
             self.frames_jumped = 0
+
         if k[pygame.K_LEFT]:
             self.walk(-1)
         elif k[pygame.K_RIGHT]:
             self.walk(1)
         else:
             self.frames_walked = 0
-
-
+            self.last_dir = 0
 
         self.apply_accel()
         self.apply_vel()
