@@ -115,7 +115,7 @@ class Menu(pygame.sprite.Sprite):
 
         self.selected = selected
 
-def main():
+def main(backg):
 
     pygame.init()
     screen = pygame.display.set_mode([SIZE_X * 30, SIZE_Y * 30])

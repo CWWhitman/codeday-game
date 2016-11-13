@@ -15,7 +15,7 @@ class Background(pygame.sprite.Sprite):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('res/scaledbg.png')
+        self.image = pygame.image.load(backg)
 
         self.rect = self.image.get_rect()
         self.rect.y = 0

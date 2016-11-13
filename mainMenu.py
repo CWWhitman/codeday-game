@@ -76,7 +76,7 @@ def main():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
                 if startGameButton.rect.collidepoint(pygame.mouse.get_pos()):
-                    joinGame.main()
+                    joinGame.main(backg)
                     pygame.quit()
 
         elif event.type == pygame.QUIT:
