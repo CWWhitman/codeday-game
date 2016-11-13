@@ -137,7 +137,7 @@ def main():
     for i in range(SIZE_X):
         tilesRow = []
         for j in range(SIZE_Y):
-            tile = Tile((i)*30, (j)*30, 'res/blankBlock.png')
+            tile = Tile((i)*30, (j)*30, 'res/blankBlock1.png')
             tilesRow.append(tile)
             allTiles.add(tile)
         tiles.append(tilesRow)
@@ -155,10 +155,10 @@ def main():
 
         event = pygame.event.poll()
 
-        mouseX = pygame.mouse.get_pos()[0]//30
+        mouseX = int(round(pygame.mouse.get_pos()[0]/30))
         if mouseX > 29:
             mouseX = 29
-        mouseY = pygame.mouse.get_pos()[1]//15
+        mouseY = int(round(pygame.mouse.get_pos()[1]/30))
         if mouseY > 14:
             mouseY = 14
         print mouseX, mouseY
@@ -171,11 +171,10 @@ def main():
             if pygame.mouse.get_pressed()[0]:
                 mousePressed = True
 
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if pygame.mouse.get_pressed()[0]:
-                    mousePressed = False
+        if event.type == pygame.MOUSEBUTTONUP:
+            mousePressed = False
 
-        elif event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 menu.changeSelection(menu.selected-1)
 
@@ -188,7 +187,7 @@ def main():
             menu.changeX((SIZE_X - 1) * 30)
 
         if mousePressed:
-            activeTile.changeImage(selected)
+            activeTile.changeImage(blocks[menu.selected])
 
         screen.fill(WHITE)
  
