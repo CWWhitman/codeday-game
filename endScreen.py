@@ -73,7 +73,7 @@ def main(winner, backg):
             if pygame.mouse.get_pressed()[0]:
                 if startGameButton.rect.collidepoint(pygame.mouse.get_pos()):
                     networking.restartGame()
-                    editor.main()
+                    editor.main(backg)
 
         elif event.type == pygame.QUIT:
             done = True
