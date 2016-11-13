@@ -72,6 +72,10 @@ class gameplay:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
+                if pygame.event.poll().type == pygame.KEYBOARD:
+                    if event.key == pygame.K_SPACE:
+                        a.rect.x = self.startPos[0]
+                        a.rect.y = self.startPos[1]
                 if a.rect.x > 900 or a.rect.x < 0 or a.rect.y >= 450 or a.rect.y <= 0:
                     a.rect.x = self.startPos[0]
                     a.rect.y = self.startPos[1]
@@ -156,6 +160,7 @@ class gameplay:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
+                    pygame.exit()
             pygame.display.update()
             clock.tick(60)
 
