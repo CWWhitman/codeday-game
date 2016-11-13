@@ -38,6 +38,10 @@ class Player:
         self.vel_y += self.accl_y
         if self.on_ground:
             self.vel_y, self.accl_y = 0, 0
+    
+    def apply_vel(self):
+        self.pos_x += self.vel_x
+        self.pos_y += self.vel_y
 
     def gravity(self):
         if not self.on_ground:
@@ -45,6 +49,7 @@ class Player:
 
     def update(self):
         self.apply_accel()
+        self.apply_vel()
         self.gravity()
 
         if not jump_key_pressed and self.holding_jump:
