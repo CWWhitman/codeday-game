@@ -47,6 +47,8 @@ class gameplay:
 
         while True:
             self.screen.blit(self.background_screen, (0,0))
+            for a in self.players:
+                a.update()
             intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
             for a in intd:
                 player, block = a,intd[a]
@@ -61,16 +63,19 @@ class gameplay:
                 # blocks are
                 # deal with only one of the collided world blocks
                 # ltaer, deal with one, then check the other one and deal if needed
-                pygame.draw.rect(self.screen, (255,255,0), blockf)
+                #pygame.draw.rect(self.screen, (255,255,0), blockf)
                 if blockf.w > blockf.h:
                     #top/bottom int
                     player.vel_y = 0
                     player.rect.y = player.rect.y - blockf.h
                     player.on_ground = True
-            for a in self.players:
-                a.update()
-                pygame.draw.rect(self.screen, (0,255,255), a.rect)
+                else:
+                    #left/r intesection
+                    player.vel_x = 0
+                    player.rect.x = player.rect.x - blockf.w
 
+            for a in self.players:
+                pygame.draw.rect(self.screen, (0,255,255), a.rect)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
