@@ -94,6 +94,7 @@ def roundFinished(timeToFinish):
         numFinished = len(numFinishedList)
         if numPlayers == numFinished:
             players = r.table('users').filter({'type' : 'player'}).run(conn)
+            fastest = 999999 #don't be fat and slower than this
             for document in players:
                if document['time'] < fastest:
                     fastest = document['time']
