@@ -1,4 +1,6 @@
 import pygame
+import networking
+import game
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -239,7 +241,8 @@ def main():
  
         clock.tick(60)
 
-    pygame.quit()
+    levelBuilt(convirtList(tiles))
+    game.main()
 
 def convirtList(inputList):
     returnList = []
