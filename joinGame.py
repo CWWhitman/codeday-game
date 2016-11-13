@@ -1,5 +1,4 @@
-import pygame, sys, eztext, settings
-#import networking, editor
+import pygame, sys, eztext, settings, networking, editor
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -72,15 +71,17 @@ def main():
             name.draw(screen)
 
         if i == 3:
-            print ip.value, port.value, name.value
+            #print ip.value, port.value, name.value
+            print i
 
         if i == 4:
-            settings.ip = ip.value
-            setings.port = port.value
-            settings.user = name.value
-            #networking.startGame()
-            #editor.main()
-            #pygame.quit()
+            settings.connectionSettings['ip'] = ip.value
+            settings.connectionSettings['port'] = port.value
+            settings.connectionSettings['user'] = name.value
+            networking.startGame()
+            editor.main()
+            pygame.quit()
+            
  
         pygame.display.flip()
 
