@@ -46,7 +46,6 @@ class gameplay:
     #todo, fix 3 way collision
     def mainloop(self):
         clock = pygame.time.Clock()
-
         while True:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
@@ -74,7 +73,6 @@ class gameplay:
             intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
             for a in intd:
                 player, block = a,intd[a]
-                print player,block
                 yes = False
                 if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
