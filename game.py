@@ -50,6 +50,7 @@ class gameplay:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
+                a.player_on_wall = False
                 brec = deepcopy(a.rect)
                 a.rect.h = 4
                 a.rect.w = 8
@@ -105,7 +106,7 @@ class gameplay:
                         player.rect.y = player.rect.y - (blockf.h if player.above_land else -1 * blockf.h)
                         player.on_ground = True
                     else:
-                        player.on_wall = True
+                        player.player_on_wall = True
                         #left/r intesection
                         player.vel_x = 0
                         player.rect.x = player.rect.x - (blockf.w if not player.world_is_left else -1 * blockf.w)
