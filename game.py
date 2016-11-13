@@ -107,7 +107,7 @@ class gameplay:
                     if self.currentWorld < len(self.worldf) - 1:
                         self.currentWorld += 1
                         self.setupgame()
-                    else
+                    else:
                         networking.roundFinished(time.time() - self.startTime)
                 yes = False
                 if len(block) == 2:
