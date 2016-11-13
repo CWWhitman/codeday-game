@@ -19,6 +19,9 @@ class gameplay:
         self.players = pygame.sprite.Group()
         self.world = pygame.sprite.Group()
         self.setupgame()
+
+
+
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
         for x, _ in enumerate(lev):
@@ -33,8 +36,7 @@ class gameplay:
         tommy = Player()
         tommy.on_ground = False
         tommy.vel_x = 1
-        self.spritegroup = pygame.sprite.Group()
-        self.spritegroup.add(tommy)
+        self.players.add(tommy)
         tommy.jump()
         pygame.display.update()
 
