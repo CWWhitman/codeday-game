@@ -19,7 +19,7 @@ class Background(pygame.sprite.Sprite):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__()
-        self.image = pygame.image.load('background.png')
+        self.image = pygame.image.load('bg.png')
 
         self.rect = self.image.get_rect()
         self.rect.y = 0
@@ -151,23 +151,26 @@ def main():
 ##                    mousePressed = False
 
 
-        while not done:
+    while not done:
 
-            event = pygame.event.poll()
+        event = pygame.event.poll()
 
-            if event.type == MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed()[0]:
-                    mousePressed = True
+        if event.type == pygame.QUIT:
+                done = True
+        
+        if event.type == MOUSEBUTTONDOWN:
+            if pygame.mouse.get_pressed()[0]:
+                mousePressed = True
 
-            elif event.type == MOUSEBUTTONUP:
-                if pygame.mouse.get_pressed()[0]:
+        elif event.type == MOUSEBUTTONUP:
+            if pygame.mouse.get_pressed()[0]:
                     mousePressed = False
 
-            elif event.type == KEYDOWN:
-                if event[1] == K_w:
-                    tileMenu.change(tileMenu.x
+        elif event.type == KEYDOWN:
+            if event[1] == K_w:
+                tileMenu.change(tileMenu.x)
 
-            if pygame.mouse.pos()[0] >= SIZE_X / 2:
-                menu.changeX(0)
-            else:
-                menu.changeX(SIZE_X - 30)
+        if pygame.mouse.pos()[0] >= (SIZE_X / 2):
+            menu.changeX(0)
+        else:
+            menu.changeX(SIZE_X - 30)
