@@ -24,6 +24,8 @@ class Player(pygame.sprite.Sprite):
         self.orientation_r = True
         self.state = "idle"
 
+        self.anim_timer = 0
+
         #images
         self.idle = pygame.image.load("res/idle.png")
         self.idler = pygame.transform.flip(self.idle, True, False)
@@ -31,6 +33,10 @@ class Player(pygame.sprite.Sprite):
         self.jumpupr = pygame.transform.flip(self.jumpup, True, False)
         self.jumpdown = pygame.image.load("res/jumpDown.png")
         self.jumpdownr = pygame.transform.flip(self.jumpdown, True, False)
+        self.run1 = pygame.image.load("res/run1.png")
+        self.run1r = pygame.transform.flip(self.run1, True, False)
+        self.run2 = pygame.image.load("res/run2.png")
+        self.run2r = pygame.transform.flip(self.run2, True, False)
         
 
 
@@ -74,6 +80,7 @@ class Player(pygame.sprite.Sprite):
         else:
             speed = 8*dir
         self.vel_x = speed
+        self.state = "run" + str(self.anim_timer//30+1)
 
     def get_image(self):
         if not self.orientation_r:
@@ -88,6 +95,10 @@ class Player(pygame.sprite.Sprite):
                             "jumpupr":self.jumpupr,
                             "jumpdown":self.jumpdown,
                             "jumpdownr":self.jumpdownr,
+                            "run1":self.run1,
+                            "run1r":self.run1r,
+                            "run2":self.run2,
+                            "run2r":self.run2r,
             }
 
         return name_to_image[state]
@@ -119,12 +130,16 @@ class Player(pygame.sprite.Sprite):
                 self.vel_x = 0
         
         if self.on_ground:
-            self.state = "idle"
+            if not self.vel_x:
+                self.state = "idle"
         else:
             if self.vel_y < 0:
                 self.state = "jumpup"
             else:
                 self.state = "jumpdown"
+
+        self.anim_timer += 1
+        self.anim_timer %= 60
 
         self.apply_accel()
         self.apply_vel()
