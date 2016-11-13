@@ -1,6 +1,8 @@
-import pygame
+import pygame, sys, eztext, settings
+#import networking, editor
 
 WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 
 class Background(pygame.sprite.Sprite):
 
@@ -18,26 +20,73 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode([900, 450])
 
-    pygame.display.set_caption('Menu')
+    pygame.display.set_caption('Join Game')
 
     allSprites = pygame.sprite.Group()
 
     background = Background()
     allSprites.add(background)
 
+    ip = eztext.Input(maxlength=45, color=BLACK, prompt='enter ip: ')
+    ip.set_pos(0,0)
+    port = eztext.Input(maxlength=45, color=BLACK, prompt='enter port:(default 28015) ')
+    port.set_pos(0,50)
+    name = eztext.Input(maxlength=45, color=BLACK, prompt='enter name: ')
+    name.set_pos(0,100)
+
     clock = pygame.time.Clock()
 
     done = False
 
+    i = 0
+    networkData = [0, 0, 0]
+
     while not done:
 
-        screen.fill(WHITE)
- 
+        clock.tick(30)
+
+        events = pygame.event.get()
+
+        for event in events:
+            if event.type == pygame.QUIT:
+                done = True
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    i +=1
+                elif event.key == pygame.K_ESCAPE:
+                    i -=1
+                
+
         allSprites.draw(screen)
+        if i == 0:
+            ip.update(events)
+            ip.draw(screen)
+
+        if i == 1:
+            port.update(events)
+            port.draw(screen)
+
+        if i == 2:
+            name.update(events)
+            name.draw(screen)
+
+        if i == 3:
+            print ip.value, port.value, name.value
+
+        if i == 4:
+            settings.ip = ip.value
+            setings.port = port.value
+            settings.user = name.value
+            #networking.startGame()
+            #editor.main()
+            #pygame.quit()
  
         pygame.display.flip()
+
  
-        clock.tick(60)
+
+    pygame.quit()
 
 if __name__ == "__main__":
     main()

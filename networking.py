@@ -5,8 +5,8 @@ import settings
 
 #call right when people are starting (opening the level editor/leaving main menu)
 def startGame():
-    if settings.ip == "localhost":
-        conn = r.connect(settings.ip, int(settings.port))
+    if settings.connectionSettings['ip'] == "localhost":
+        conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
         if len(r.table_list().run(conn)) == 0:
             r.table_create('levels').run(conn)
             r.table_create('users').run(conn)
@@ -15,23 +15,23 @@ def startGame():
             r.table('levels').delete().run(conn)
             r.table('users').delete().run(conn)
 
-        r.table('users').insert({'username' : settings.user, 'time' : 999, 'done': False, 'type' : 'player', 'pos' : (0,0)}).run(conn)
+        r.table('users').insert({'username' : settings.connectionSettings['user'], 'time' : 999, 'done': False, 'type' : 'player', 'pos' : (0,0)}).run(conn)
         r.table('users').insert({'numUsers' : 1 , 'type' : 'numUsers'}).run(conn)
 
     else:
-        conn = r.connect(settings.ip, int(settings.port))
+        conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
 
         if len(r.table_list().run(conn)) != 0: #firstly, check if there are tables on the db
             if r.table('users').filter({'done': True}).count().run(conn) > 0: #if this is true surely we are looking at old data
                 for changes in r.table('users').filter({'done': True}).changes().run(conn): #post up here to check for changes
                     break #if anything changes than our stuff is updated (almost definitely)
             
-        r.table('users').insert({'username' : settings.user, 'time' : 999, 'done': False, 'type' : 'player', 'pos' : (0,0)}).run(conn)
+        r.table('users').insert({'username' : settings.connectionSettings['user'], 'time' : 999, 'done': False, 'type' : 'player', 'pos' : (0,0)}).run(conn)
         r.table('users').filter({'type':'numUsers'}).update({'numUsers' : r.row['numUsers']+1}).run(conn)
 
 #called when level is finished building, should force the players to wait, takes in an array that is the level
 def levelBuilt(levelArray):
-    conn = r.connect(settings.ip, int(settings.port))
+    conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
     r.table('levels').insert({'level' : levelArray, 'type' : 'level' }).run(conn)
 
     waiting = True
@@ -51,7 +51,7 @@ def levelBuilt(levelArray):
 
 #returns an array of levels (each level is of course its own array)
 def getLevels():
-    conn = r.connect(settings.ip, int(settings.port))
+    conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
     levelsCursor = r.table('levels').run(conn)
     Levels = []
     for level in levelsCursor:
@@ -63,13 +63,13 @@ def getLevels():
 
 #returns list of positions as tuples, takes in our players position as a tuple (x,y)
 def updatePlayerPositions(playerPosition):
-    conn = r.connect(settings.ip, int(settings.port))
-    r.table('users').filter({'username' : settings.user}).update({'pos' : playerPosition}).run(conn)
+    conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
+    r.table('users').filter({'username' : settings.connectionSettings['user']}).update({'pos' : playerPosition}).run(conn)
 
     usersCursor = r.table('users').filter({'type':'player'}).run(conn)
     positions = []
     for user in usersCursor:
-        if(user['username'] == settings.user):
+        if(user['username'] == settings.connectionSettings['user']):
            pass
         else:
             positions.append(user['pos'])
@@ -78,9 +78,9 @@ def updatePlayerPositions(playerPosition):
 
 #called when the player finishes the round, takes in his time to finish and returns the winner of the round
 def roundFinished(timeToFinish):
-    conn = r.connect(settings.ip, int(settings.port))
-    r.table('users').filter({'username' : settings.user}).update({'time': timeToFinish}).run(conn)
-    r.table('users').filter({'username' : settings.user}).update({'done': True}).run(conn)
+    conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
+    r.table('users').filter({'username' : settings.connectionSettings['user']}).update({'time': timeToFinish}).run(conn)
+    r.table('users').filter({'username' : settings.connectionSettings['user']}).update({'done': True}).run(conn)
 
     waiting = True
 
@@ -109,14 +109,14 @@ def roundFinished(timeToFinish):
 
 #if the same crew of people want to play again call this, and then jump into the level editor
 def restartGame():
-    if settings.ip == "localhost":
-        conn = r.connect(settings.ip, int(settings.port))
+    if settings.connectionSettings['ip'] == "localhost":
+        conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
         r.table('levels').delete().run(conn)
 
         r.table('users').filter({'type' : 'player'}).update({'time' : 999}).run(conn)
         r.table('users').filter({'type' : 'player'}).update({'done' : False}).run(conn)
     else:
-        conn = r.connect(settings.ip, int(settings.port))
+        conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
 
         if len(r.table_list().run(conn)) != 0: #firstly, check if there are tables on the db
             if r.table('users').filter({'done': True}).count().run(conn) > 0: #if this is true surely we are looking at old data
