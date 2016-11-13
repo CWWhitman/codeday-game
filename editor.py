@@ -10,8 +10,8 @@ PURPLE = (255, 0, 255)
 SIZE_X = 30
 SIZE_Y = 15
 
-blocks = ['triangleBlock.png', 'squareBlock.png']
-blocksSelected = ['triangleBlockSelected.png', 'squareBlockSelected.png']
+blocks = ['res/triangleBlock.png', 'res/squareBlock.png']
+blocksSelected = ['res/triangleBlockSelected.png', 'res/squareBlockSelected.png']
 
 class Background(pygame.sprite.Sprite):
 
@@ -19,7 +19,7 @@ class Background(pygame.sprite.Sprite):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('scaledbg.png')
+        self.image = pygame.image.load('res/scaledbg.png')
 
         self.rect = self.image.get_rect()
         self.rect.y = 0
@@ -127,7 +127,7 @@ def main():
     for i in range(SIZE_X):
         tilesRow = []
         for j in range(SIZE_Y):
-            tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'blankBlock.png')
+            tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'res/blankBlock.png')
             tilesRow.append(tile)
             allTiles.add(tile)
         tiles.append(tilesRow)
