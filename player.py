@@ -22,6 +22,16 @@ class Player(pygame.sprite.Sprite):
         self.last_dir = 0
 
         self.orientation_r = True
+        self.state = "idle"
+
+        #images
+        self.idle = pygame.image.load("res/idle.png")
+        self.idler = pygame.transform.flip(self.idle, True, False)
+        self.jumpup = pygame.image.load("res/jumpUp.png")
+        self.jumpupr = pygame.transform.flip(self.jumpup, True, False)
+        self.jumpdown = pygame.image.load("res/jumpDown.png")
+        self.jumpdownr = pygame.transform.flip(self.jumpdown, True, False)
+        
 
 
     def spawn(self, x, y):
@@ -65,6 +75,25 @@ class Player(pygame.sprite.Sprite):
             speed = 8*dir
         self.vel_x = speed
 
+    def get_image(self):
+        if not self.orientation_r:
+            state = self.state + 'r'
+        else:
+            state = self.state
+
+        name_to_image = {
+                            "idle":self.idle,
+                            "idler":self.idler,
+                            "jumpup":self.jumpup,
+                            "jumpupr":self.jumpupr,
+                            "jumpdown":self.jumpdown,
+                            "jumpdownr":self.jumpdownr,
+            }
+
+        return name_to_image[state]
+                            
+                            
+
     def update(self):
         pygame.event.pump()
         k = pygame.key.get_pressed()
@@ -81,12 +110,21 @@ class Player(pygame.sprite.Sprite):
             self.orientation_r = False
         elif k[pygame.K_RIGHT]:
             self.walk(1)
-            self.orientation_r = True
+            self.orientation_r = True 
+            
         else:
             self.frames_walked = 0
             self.last_dir = 0
             if self.on_ground:
                 self.vel_x = 0
+        
+        if self.on_ground:
+            self.state = "idle"
+        else:
+            if self.vel_y < 0:
+                self.state = "jumpup"
+            else:
+                self.state = "jumpdown"
 
         self.apply_accel()
         self.apply_vel()
