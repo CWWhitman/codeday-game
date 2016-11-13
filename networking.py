@@ -1,23 +1,31 @@
-import settings
+#for this game to work it is assumed that someone has a rethinkdb server running and that people are on the same network (hamachi should work) import settings. Server should be started with --bind all.
 import rethinkdb as r
 import time
+import settings
 
 #call right when people are starting (opening the level editor/leaving main menu)
 def startGame():
     if settings.ip == "localhost":
         conn = r.connect(settings.ip, int(settings.port))
-        if r.table_list().count('levels').run(conn) == 1:
-            r.table_drop('levels').run(conn)
-            r.table_drop('users').run(conn)
-
-        r.table_create('levels').run(conn)
-        r.table_create('users').run(conn)
+        if len(r.table_list().run(conn)) == 0:
+            r.table_create('levels').run(conn)
+            r.table_create('users').run(conn)
+            
+        if r.table('levels').count().run(conn) > 0:
+            r.table('levels').delete().run(conn)
+            r.table('users').delete().run(conn)
 
         r.table('users').insert({'username' : settings.user, 'time' : 999, 'done': False, 'type' : 'player', 'pos' : (0,0)}).run(conn)
         r.table('users').insert({'numUsers' : 1 , 'type' : 'numUsers'}).run(conn)
 
     else:
         conn = r.connect(settings.ip, int(settings.port))
+
+        if len(r.table_list().run(conn)) != 0: #firstly, check if there are tables on the db
+            if r.table('users').filter({'done': True}).count()run(conn) > 0: #if this is true surely we are looking at old data
+                for changes in r.table('users').filter({'done': True}).changes().run(conn): #post up here to check for changes
+                    break #if anything changes than our stuff is updated (almost definitely)
+            
         r.table('users').insert({'username' : settings.user, 'time' : 999, 'done': False, 'type' : 'player', 'pos' : (0,0)}).run(conn)
         r.table('users').filter({'type':'numUsers'}).update({'numUsers' : r.row['numUsers']+1}).run(conn)
 
@@ -99,5 +107,22 @@ def roundFinished(timeToFinish):
     return winner
 
 
+#if the same crew of people want to play again call this, and then jump into the level editor
+def restartGame():
+    if settings.ip === "localhost":
+        conn = r.connect(settings.ip, int(settings.port))
+        r.table('levels').delete().run(conn)
+
+        r.table('users').filter({'type' : 'player'}).update({'time' : 999}).run(conn)
+        r.table('users').filter({'type' : 'player'}).update({'done' : False}).run(conn)
+    else:
+        conn = r.connect(settings.ip, int(settings.port))
+
+        if len(r.table_list().run(conn)) != 0: #firstly, check if there are tables on the db
+            if r.table('users').filter({'done': True}).count()run(conn) > 0: #if this is true surely we are looking at old data
+                for changes in r.table('users').filter({'done': True}).changes().run(conn): #post up here to check for changes
+                    break #if anything changes than our stuff is updated (almost definitely)
+
+        #nothing actually happens for the clients here, they should just be held up until the host has reset the game. Upon which they go back into the level editor and things continue
 
             
