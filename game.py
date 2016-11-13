@@ -78,7 +78,7 @@ class gameplay:
                     if event.key == pygame.K_SPACE:
                         a.rect.x = self.startPos[0]
                         a.rect.y = self.startPos[1]
-                if a.rect.x > 900 or a.rect.x < 0 or a.rect.y >= 450:
+                if a.rect.x > 900 or a.rect.x < 0 or a.rect.y <= 0:
                     a.rect.x = self.startPos[0]
                     a.rect.y = self.startPos[1]
                 a.player_on_wall = False
