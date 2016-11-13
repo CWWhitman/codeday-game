@@ -156,6 +156,8 @@ class gameplay:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    pygame.display.quit()
+                    pygame.quit()
                     sys.exit()
             pygame.display.update()
             clock.tick(60)
