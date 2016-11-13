@@ -16,6 +16,7 @@ class gameplay:
         self.width = width
         self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.bscreen = pygame.Surface((self.width, self.height))
         self.players = pygame.sprite.Group()
         self.world = pygame.sprite.Group()
         self.setupgame()
@@ -31,7 +32,7 @@ class gameplay:
                 else:
                     color = (0,0,255)
                 pos = (y * 30, x * 30, 30,30)
-                pygame.draw.rect(self.screen, color, pos)
+                pygame.draw.rect(self.bscreen, color, pos)
 
         tommy = Player()
         tommy.on_ground = False
@@ -43,6 +44,7 @@ class gameplay:
     def mainloop(self):
         clock = pygame.time.Clock()
         while True:
+            self.screen.blit(self.bscreen, (0,0))
             for a in self.players:
                 a.update()
                 pygame.draw.rect(self.screen, (0,255,255), a.rect)
