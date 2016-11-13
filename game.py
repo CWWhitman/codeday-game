@@ -16,9 +16,13 @@ class gameplay:
         self.width = width
         self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.bscreen = pygame.Surface((self.width, self.height))
         self.players = pygame.sprite.Group()
         self.world = pygame.sprite.Group()
         self.setupgame()
+
+
+
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
         for x, _ in enumerate(lev):
@@ -28,19 +32,19 @@ class gameplay:
                 else:
                     color = (0,0,255)
                 pos = (y * 30, x * 30, 30,30)
-                pygame.draw.rect(self.screen, color, pos)
+                pygame.draw.rect(self.bscreen, color, pos)
 
         tommy = Player()
         tommy.on_ground = False
         tommy.vel_x = 1
-        self.spritegroup = pygame.sprite.Group()
-        self.spritegroup.add(tommy)
+        self.players.add(tommy)
         tommy.jump()
         pygame.display.update()
 
     def mainloop(self):
         clock = pygame.time.Clock()
         while True:
+            self.screen.blit(self.bscreen, (0,0))
             for a in self.players:
                 a.update()
                 pygame.draw.rect(self.screen, (0,255,255), a.rect)
