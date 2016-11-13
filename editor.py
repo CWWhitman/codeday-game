@@ -6,8 +6,8 @@ WHITE = (255, 255, 255)
 SIZE_X = 30
 SIZE_Y = 15
 
-blocks = ['res/blankBlock1.png', 'res/triangleBlock.png', 'res/squareBlock.png', 'res/startBlock.png', 'res/finishBlock.png']
-blocksSelected = ['res/blankBlockSelected.png', 'res/triangleBlockSelected.png', 'res/squareBlockSelected.png',
+blocks = ['res/blankBlock1.png', 'res/triangleBlock.png', 'res/Wall.png', 'res/startBlock.png', 'res/finishBlock.png']
+blocksSelected = ['res/blankBlockSelected.png', 'res/triangleBlockSelected.png', 'res/Wall Select.png',
                   'res/startBlockSelected.png', 'res/finishBlockSelected.png']
 
 class Background(pygame.sprite.Sprite):
@@ -184,6 +184,9 @@ def main():
             if event.key == pygame.K_s:
                 menu.changeSelection(menu.selected+1)
 
+            if event.key == pygame.K_j:
+                print menu.selected, activeTile.getName(), start
+
             if event.key == pygame.K_c:
                 menuGroup.add(clear)
                 clearing = True
@@ -204,6 +207,8 @@ def main():
                         allTiles.add(tile)
                     tilesNew.append(tilesRow)
                 tiles = tilesNew
+                start = False
+                end = False
                 clearing = False
 
         if pygame.mouse.get_pos()[0] >= (SIZE_X / 2 * 30):
@@ -221,7 +226,7 @@ def main():
             
         elif mousePressed and not menu.selected == 3 and not menu.selected == 4:
             if menu.selected == 0 and activeTile.getName() == 'res/startBlock.png':
-                start == False
+                start = False
             if menu.selected == 0 and activeTile.getName() == 'res/finishBlock.png':
                 end == False
             activeTile.changeImage(blocks[menu.selected])
