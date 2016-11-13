@@ -41,7 +41,8 @@ class gameplay:
         tommy.on_ground = True
         self.players.add(tommy)
         pygame.display.update()
-
+    #todo, make underbelly collision
+    #todo, fix 3 way collision
     def mainloop(self):
         clock = pygame.time.Clock()
 
@@ -49,16 +50,24 @@ class gameplay:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
+                a.rect.move_ip(0,2)
+                if not pygame.sprite.spritecollideany(a, self.world):
+                    a.on_ground = False
+                a.rect.move_ip(0,-2)
             intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
             for a in intd:
                 player, block = a,intd[a]
                 print player,block
-                if len(block) > 1:
+                if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
                         r = block[0].rect.clip(player.rect)
                         r1 = block[1].rect.clip(player.rect)
                         blockf = r.union(r1)
-                else:
+                if len(block) in [3,4]:
+                    r1 = block[0].rect.clip(player.rect)
+                    # get all the recs
+                    # iterate through them sperately, correct any two of them not unioned
+                if len(block) == 1:
                     blockf = block[0].rect.clip(player.rect)
                 # blocks are
                 # deal with only one of the collided world blocks
@@ -80,7 +89,7 @@ class gameplay:
                 if event.type == pygame.QUIT:
                     sys.exit()
             pygame.display.update()
-            clock.tick(60)
+            clock.tick(120)
 
 if __name__ == '__main__':
     main = gameplay()
