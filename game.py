@@ -27,6 +27,10 @@ class gameplay:
         self.world = pygame.sprite.Group()
         self.setupgame()
 
+        #images
+        self.idle = pygame.image.load("res/idle.png")
+        self.idler = pygame.transform.flip(self.idle, True, False)
+
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
         for x, _ in enumerate(lev):
@@ -113,7 +117,12 @@ class gameplay:
                         player.rect.x = player.rect.x - (blockf.w if not player.world_is_left else -1 * blockf.w)
 
             for a in self.players:
-                pygame.draw.rect(self.screen, (0,255,255), a.rect)
+                #pygame.draw.rect(self.screen, (0,255,255), a.rect)
+                if a.orientation_r:
+                    self.screen.blit(self.idle, a.rect)
+                else:
+                    self.screen.blit(self.idler, a.rect)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()

@@ -15,12 +15,13 @@ class Player(pygame.sprite.Sprite):
 
         self.on_ground = True
         self.jump_frame = 1
-        self.jkp = False
 
         self.frames_jumped = 0
 
         self.frames_walked = 0
         self.last_dir = 0
+
+        self.orientation_r = True
 
 
     def spawn(self, x, y):
@@ -69,13 +70,18 @@ class Player(pygame.sprite.Sprite):
         k = pygame.key.get_pressed()
         if k[pygame.K_UP] and (self.frames_jumped or self.on_ground):
             self.jump()
+        elif k[pygame.K_UP] and self.player_on_wall and not self.on_ground:
+            self.frames_jumped = 0
+            self.jump()
         else:
             self.frames_jumped = 0
 
         if k[pygame.K_LEFT]:
             self.walk(-1)
+            self.orientation_r = False
         elif k[pygame.K_RIGHT]:
             self.walk(1)
+            self.orientation_r = True
         else:
             self.frames_walked = 0
             self.last_dir = 0
