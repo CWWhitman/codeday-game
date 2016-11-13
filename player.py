@@ -44,6 +44,10 @@ class Player(pygame.sprite.Sprite):
     def gravity(self):
         if not self.on_ground:
             self.accl_y = 1.0
+    
+    def move_to_floor(self, correction):
+        self.rect.move_ip(0, -correction)
+        self.accl_y, self.vel_y, self.on_ground = 0, 0, True
 
     def update(self):
 
