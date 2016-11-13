@@ -2,6 +2,7 @@ import pygame
 import joinGame
 
 BLACK =(0,0,0)
+WHITE =(255,255,255)
 
 buttons = ['res/startgamee.png']
 title = 'res/title.png'
