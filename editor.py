@@ -18,7 +18,7 @@ class Background(pygame.sprite.Sprite):
     def __init__(self):
         """ Constructor function """
  
-        pygame.sprite.Sprite.__init__()
+        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('bg.png')
 
         self.rect = self.image.get_rect()
@@ -33,7 +33,7 @@ class Tile(pygame.sprite.Sprite):
 
         self.name = name
 
-        pygame.sprite.Sprite.__init__()
+        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(name)
 
         self.rect = self.image.get_rect()
@@ -58,7 +58,7 @@ class Menu(pygame.sprite.Sprite):
 
         self.x = x
         self.selected = selected
-        pygame.sprite.Sprite.__init__()
+        pygame.sprite.Sprite.__init__(self)
         
         self.changeX(x, selected)
 
@@ -124,45 +124,28 @@ def main():
     tiles = []
     allTiles = pygame.sprite.Group()
     
-    for i in range(SIZE_X):
+    """for i in range(SIZE_X):
         tilesRow = []
         for j in range(SIZE_Y):
-            tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'blank.png')
+            tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'blankBlock.png')
             tilesRow.append(tile)
             allTiles.add(tile)
-        tiles.append(tilesRow)
+        tiles.append(tilesRow)"""
 
-    menu = Menu(0, 0)
+    #menu = Menu(0, 0)
 
     clock = pygame.time.Clock()
 
-    pygame.mouse.set_visible(True)
+    #pygame.mouse.set_visible(True)
  
     done = False
-
-
-##    while not done:
-##
-##        for event in pygame.event.get():
-##            if event.type == pygame.QUIT:
-##                done = True
-##
-##            if event.type == pygame.MOUSEBUTTONDOWN:
-##                if pygame.mouse.get_pressed()[0]:
-##                    mousePressed = True
-##                    #tilePos = pygame.mouse.pos()
-##
-##            if event.type == pygame.MOUSEBUTTONUP:
-##                if pygame.mouse.get_pressed()[0]:
-##                    mousePressed = False
-
 
     while not done:
 
         event = pygame.event.poll()
 
         if event.type == pygame.QUIT:
-                done = True
+            done = True
         
         if event.type == MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
@@ -183,3 +166,17 @@ def main():
             menu.changeX(0)
         else:
             menu.changeX(SIZE_X - 30)
+
+        screen.fill(WHITE)
+ 
+        allSprites.draw(screen)
+        allTiles.draw(screen)
+ 
+        pygame.display.flip()
+ 
+        clock.tick(60)
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()
