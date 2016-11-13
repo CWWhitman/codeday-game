@@ -7,7 +7,8 @@ SIZE_X = 30
 SIZE_Y = 15
 
 blocks = ['res/blankBlock1.png', 'res/triangleBlock.png', 'res/squareBlock.png', 'res/startBlock.png', 'res/finishBlock.png']
-blocksSelected = ['res/blankBlockSelected.png', 'res/triangleBlockSelected.png', 'res/squareBlockSelected.png']
+blocksSelected = ['res/blankBlockSelected.png', 'res/triangleBlockSelected.png', 'res/squareBlockSelected.png',
+                  'res/startBlockSelected.png', 'res/finishBlockSelected.png']
 
 class Background(pygame.sprite.Sprite):
 
@@ -210,15 +211,19 @@ def main():
         else:
             menu.changeX((SIZE_X - 1) * 30)
 
-        if mousePressed and blocks[menu.selected] == 'startBlock.png' and not start:
+        if mousePressed and menu.selected == 3 and not start:
             activeTile.changeImage(blocks[menu.selected])
             start = True;
 
-        elif mousePressed and blocks[menu.selected] == 'finishBlock.png' and not end:
+        elif mousePressed and menu.selected == 4 and not end:
             activeTile.changeImage(blocks[menu.selected])
             end = True;
             
-        elif mousePressed:
+        elif mousePressed and not menu.selected == 3 and not menu.selected == 4:
+            if menu.selected == 0 and activeTile.getName() == 'res/startBlock.png':
+                start == False
+            if menu.selected == 0 and activeTile.getName() == 'res/finishBlock.png':
+                end == False
             activeTile.changeImage(blocks[menu.selected])
  
         allSprites.draw(screen)
