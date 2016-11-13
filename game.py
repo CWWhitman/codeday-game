@@ -14,7 +14,8 @@ class gameplay:
     """The Main PyMan Class - This class handles the main
     initialization and creating of the Game."""
 
-    def __init__(self, width=900,height=450):
+    def __init__(self, worldf,width=900,height=450):
+        self.worldf = worldf
         self.state = {"x": 12}
         pygame.init()
         pygame.display.set_caption('videogames')
@@ -27,10 +28,14 @@ class gameplay:
         self.world = pygame.sprite.Group()
         self.setupgame()
 
+        #images
+        self.idle = pygame.image.load("res/idle.png")
+        self.idler = pygame.transform.flip(self.idle, True, False)
+
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
-        for x, _ in enumerate(lev):
-            for y, char in enumerate(lev[x]):
+        for x, _ in enumerate(self.worldf):
+            for y, char in enumerate(self.worldf[x]):
                 pos = (y * 30, x * 30, 30,30)
                 if int(char):
                     color = (255,0,100)
@@ -112,7 +117,12 @@ class gameplay:
                         player.rect.x = player.rect.x - (blockf.w if not player.world_is_left else -1 * blockf.w)
 
             for a in self.players:
-                pygame.draw.rect(self.screen, (0,255,255), a.rect)
+                #pygame.draw.rect(self.screen, (0,255,255), a.rect)
+                if a.orientation_r:
+                    self.screen.blit(self.idle, a.rect)
+                else:
+                    self.screen.blit(self.idler, a.rect)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -120,5 +130,5 @@ class gameplay:
             clock.tick(60)
 
 if __name__ == '__main__':
-    main = gameplay()
+    main = gameplay(lev)
     main.mainloop()
