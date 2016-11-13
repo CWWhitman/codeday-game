@@ -27,7 +27,7 @@ class MenuButton(pygame.sprite.Sprite):
         self.image = pygame.image.load(buttons[button])
 
         self.rect = self.image.get_rect()
-        self.rect.y = 200
+        self.rect.y = 400
         self.rect.x = 400
 
 class MenuTitle(pygame.sprite.Sprite):
