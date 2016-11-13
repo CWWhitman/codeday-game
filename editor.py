@@ -63,6 +63,9 @@ class Menu(pygame.sprite.Sprite):
         self.changeX(x, selected)
 
     def changeX(self, x):
+
+        self.x = x
+        
         self.image = pygame.Surface([30, SIZE_Y])
         self.image.fill(BLACK)
  
@@ -84,6 +87,9 @@ class Menu(pygame.sprite.Sprite):
         menuTiles.draw(self.image)
 
     def changeSelection(self, selected):
+
+        self.selected = selected
+        
         self.image = pygame.Surface([30, SIZE_Y])
         self.image.fill(BLACK)
  
@@ -166,6 +172,19 @@ def main():
             if pygame.mouse.get_pressed()[0]:
                     mousePressed = False
 
+<<<<<<< HEAD
+            elif event.type == KEYDOWN:
+                if event[1] == K_w:
+                    menu.changeSelection(menu.selection-1)
+
+                if event[1] == K_s:
+                    menu.changeSelection(menu.selection+1)
+                    
+            if pygame.mouse.pos()[0] >= SIZE_X / 2:
+                menu.changeX(0)
+            else:
+                menu.changeX(SIZE_X - 30)
+=======
         elif event.type == KEYDOWN:
             if event[1] == K_w:
                 tileMenu.change(tileMenu.x)
@@ -174,3 +193,4 @@ def main():
             menu.changeX(0)
         else:
             menu.changeX(SIZE_X - 30)
+>>>>>>> cae9b12d2cc641f65e7acf0b42892c5cf325817f
