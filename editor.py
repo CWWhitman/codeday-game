@@ -127,12 +127,13 @@ def main():
     for i in range(SIZE_X):
         tilesRow = []
         for j in range(SIZE_Y):
-            tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'res/blankBlock.png')
+            tile = Tile((i)*30, (j)*30, 'res/blankBlock.png')
             tilesRow.append(tile)
             allTiles.add(tile)
         tiles.append(tilesRow)
 
     menu = Menu(0, 0)
+    allSprites.add(menu)
 
     clock = pygame.time.Clock()
 
