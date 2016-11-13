@@ -154,10 +154,7 @@ class gameplay:
 
             for a in self.players:
                 #pygame.draw.rect(self.screen, (0,255,255), a.rect)
-                if a.orientation_r:
-                    self.screen.blit(self.idle, a.rect)
-                else:
-                    self.screen.blit(self.idler, a.rect)
+                self.screen.blit(a.get_image(), a.rect)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
