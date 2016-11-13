@@ -40,9 +40,11 @@ def levelBuilt(levelArray):
         numPlayersCursor = r.table('users').filter({'type' : 'numUsers'}).run(conn)
         numPlayersList = list(numPlayersCursor)
         numPlayers = numPlayersList[0]['numUsers']
+        print numPlayers
         numFinishedCursor = r.table('levels').filter({'type' : 'level'}).run(conn)
         numFinishedList = list(numFinishedCursor)
         numFinished = len(numFinishedList)
+        print numFinished
         if numPlayers == numFinished:
             waiting = False
             #we move onto the game
