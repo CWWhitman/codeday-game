@@ -119,15 +119,19 @@ def main():
 
         while not done:
 
-            if pygame.event.poll().type == MOUSEBUTTONDOWN:
+            event = pygame.event.poll()
+
+            if event.type == MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
                     mousePressed = True
 
-            if pygame.event.poll().type == MOUSEBUTTONUP:
+            elif event.type == MOUSEBUTTONUP:
                 if pygame.mouse.get_pressed()[0]:
                     mousePressed = False
 
-            if pygame.event.poll().type == MOUSEBUTTONUP:
+            elif event.type == KEYDOWN:
+                if event[1] == K_w:
+                    tileMenu.change(tileMenu.x
                 
 
 
