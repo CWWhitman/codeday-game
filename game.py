@@ -4,6 +4,11 @@ import pygame, sys
 from player import *
 from pygame.locals import *
 
+class Block(pygame.sprite.Sprite):
+    def __init__(self, color, pos):
+        super(Block, self).__init__()
+        self.rect = Rect(pos)
+
 class gameplay:
     """The Main PyMan Class - This class handles the main
     initialization and creating of the Game."""
@@ -16,24 +21,22 @@ class gameplay:
         self.width = width
         self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height))
-        self.bscreen = pygame.Surface((self.width, self.height))
+        self.background_screen = pygame.Surface((self.width, self.height))
         self.players = pygame.sprite.Group()
         self.world = pygame.sprite.Group()
         self.setupgame()
-
-
 
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
         for x, _ in enumerate(lev):
             for y, char in enumerate(lev[x]):
+                pos = (y * 30, x * 30, 30,30)
                 if int(char):
                     color = (255,0,100)
+                    self.world.add(Block(color, pos))
                 else:
                     color = (0,0,255)
-                pos = (y * 30, x * 30, 30,30)
-                pygame.draw.rect(self.bscreen, color, pos)
-
+                pygame.draw.rect(self.background_screen, color, pos)
         tommy = Player(0,200)
         tommy.on_ground = True
         self.players.add(tommy)
@@ -41,12 +44,23 @@ class gameplay:
 
     def mainloop(self):
         clock = pygame.time.Clock()
-        pygame.time.delay(1000)
+
         while True:
-            self.screen.blit(self.bscreen, (0,0))
+            self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
                 pygame.draw.rect(self.screen, (0,255,255), a.rect)
+            intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
+            for a in intd:
+                player, block = a,intd[a]
+                print player,block
+                # deal with only one of the collided world blocks
+                # ltaer, deal with one, then check the other one and deal if needed
+                r = block[0].rect.clip(player.rect)
+                if r.w > r.h:
+                    #top/bottom int
+                    player.vel_y = 0.0
+                    #r.
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()

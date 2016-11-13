@@ -39,11 +39,11 @@ class Player(pygame.sprite.Sprite):
 
     def apply_vel(self):
         self.rect.move_ip(self.vel_x, self.vel_y)
-        
+
     def gravity(self):
         if not self.on_ground:
             self.accl_y = 1.0
-    
+
     def move_to_floor(self, correction):
         self.rect.move_ip(0, -correction)
         self.accl_y, self.vel_y, self.on_ground = 0, 0, True
@@ -53,7 +53,9 @@ class Player(pygame.sprite.Sprite):
         k = pygame.key.get_pressed()
         if k[pygame.K_UP]:
             self.jkp = True
-        
+        else:
+            self.jkp = False
+
         if self.on_ground and self.jkp:
             self.holding_jump = True
 
