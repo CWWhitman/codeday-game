@@ -4,6 +4,8 @@ import pygame, sys
 from player import *
 from pygame.locals import *
 from copy import deepcopy
+import networking
+import time
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, name, pos):
@@ -19,8 +21,10 @@ class gameplay:
     """The Main PyMan Class - This class handles the main
     initialization and creating of the Game."""
 
-    def __init__(self, worldf,width=900,height=450):
-        self.worldf = worldf
+    def __init__(self,width=900,height=450):
+        self.worldf = networking.getLevels()
+        self.currentWorld = 0
+        self.startTime = time.time()
         self.state = {"x": 12}
         pygame.init()
         pygame.display.set_caption('videogames')
@@ -33,12 +37,18 @@ class gameplay:
         self.world = pygame.sprite.Group()
         self.setupgame()
 
+        #images
+        self.idle = pygame.image.load("res/idle.png")
+        self.idler = pygame.transform.flip(self.idle, True, False)
 
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
+        self.players.empty()
+        self.world.empty()
         self.startPos = (0,200)
-        for x, _ in enumerate(self.worldf):
-            for y, char in enumerate(self.worldf[x]):
+        worldNew = self.worldf[currentWorld]
+        for x, _ in enumerate(worldNew):
+            for y, char in enumerate(worldNew[x]):
                 pos = (x * 30, y * 30)
 
                 if char not in ['res/blankBlock1.png', 'res/startBlock.png']:
@@ -65,7 +75,6 @@ class gameplay:
                 if a.rect.x > 900 or a.rect.x < 0 or a.rect.y > 450 or a.rect.y < 0:
                     player.rect.x = self.startPos[0]
                     player.rect.y = self.startPos[1]
-                
                 a.player_on_wall = False
                 brec = deepcopy(a.rect)
                 a.rect.h = 4
@@ -95,7 +104,11 @@ class gameplay:
                     player.rect.x = self.startPos[0]
                     player.rect.y = self.startPos[1]
                 if 'res/finishBlock.png' in a:
-                    pygame.quit()
+                    if self.currentWorld < len(self.worldf) - 1:
+                        self.currentWorld += 1
+                        self.setupgame()
+                    else
+                        networking.roundFinished(time.time() - self.startTime)
                 yes = False
                 if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
@@ -135,7 +148,10 @@ class gameplay:
 
             for a in self.players:
                 #pygame.draw.rect(self.screen, (0,255,255), a.rect)
-                self.screen.blit(a.get_image(), a.rect)
+                if a.orientation_r:
+                    self.screen.blit(self.idle, a.rect)
+                else:
+                    self.screen.blit(self.idler, a.rect)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
