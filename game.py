@@ -109,7 +109,7 @@ class gameplay:
                         self.currentWorld += 1
                         self.setupgame()
                     else:
-                        networking.roundFinished(time.time() - self.startTime)
+                        print networking.roundFinished(time.time() - self.startTime)
                 yes = False
                 if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
