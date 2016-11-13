@@ -57,8 +57,8 @@ class gameplay:
                     finishPos = pos
                 if char == 'res/startBlock.png':
                     self.startPos = pos
-                
-                self.background_screen.blit(pygame.image.load(char), pos)
+                if char != 'res/blankBlock1.png':
+                    self.background_screen.blit(pygame.image.load(char), pos)
         a,b = self.startPos
         tommy = Player(a,b)
         tommy.on_ground = True
