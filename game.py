@@ -52,14 +52,24 @@ class gameplay:
             for a in self.players:
                 a.update()
                 brec = deepcopy(a.rect)
-                a.rect.h = 15
-                a.rect.top = brec.top + 17
-                #pygame.draw.rect(self.screen, (255,255,0), a.rect)
+                a.rect.h = 4
+                a.rect.w = 8
+                a.rect.left = a.rect.left + 11
+                a.rect.top = brec.top + 28
                 if not pygame.sprite.spritecollideany(a, self.world):
                     a.on_ground = False
                     a.above_land = False
                 else:
                     a.above_land = True
+                a.rect.h = 8
+                a.rect.w = 4
+                a.rect.left = brec.left - 4
+                a.rect.top = brec.top + 11
+                pygame.draw.rect(self.screen, (255,255,0), a.rect)
+                if not pygame.sprite.spritecollideany(a, self.world):
+                    a.world_is_left = False
+                else:
+                    a.world_is_left = True
                 a.rect = brec
             intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
             for a in intd:
@@ -98,7 +108,7 @@ class gameplay:
                 else:
                     #left/r intesection
                     player.vel_x = 0
-                    player.rect.x = player.rect.x - blockf.w
+                    player.rect.x = player.rect.x - (blockf.w if not player.world_is_left else -1 * blockf.w)
 
             for a in self.players:
                 pygame.draw.rect(self.screen, (0,255,255), a.rect)
