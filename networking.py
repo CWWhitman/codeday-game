@@ -22,7 +22,7 @@ def startGame():
         conn = r.connect(settings.ip, int(settings.port))
 
         if len(r.table_list().run(conn)) != 0: #firstly, check if there are tables on the db
-            if r.table('users').filter({'done': True}).count()run(conn) > 0: #if this is true surely we are looking at old data
+            if r.table('users').filter({'done': True}).count().run(conn) > 0: #if this is true surely we are looking at old data
                 for changes in r.table('users').filter({'done': True}).changes().run(conn): #post up here to check for changes
                     break #if anything changes than our stuff is updated (almost definitely)
             
@@ -69,7 +69,7 @@ def updatePlayerPositions(playerPosition):
     usersCursor = r.table('users').filter({'type':'player'}).run(conn)
     positions = []
     for user in usersCursor:
-        if(user['username'] == settings.user:
+        if(user['username'] == settings.user):
            pass
         else:
             positions.append(user['pos'])
@@ -109,7 +109,7 @@ def roundFinished(timeToFinish):
 
 #if the same crew of people want to play again call this, and then jump into the level editor
 def restartGame():
-    if settings.ip === "localhost":
+    if settings.ip == "localhost":
         conn = r.connect(settings.ip, int(settings.port))
         r.table('levels').delete().run(conn)
 
@@ -119,7 +119,7 @@ def restartGame():
         conn = r.connect(settings.ip, int(settings.port))
 
         if len(r.table_list().run(conn)) != 0: #firstly, check if there are tables on the db
-            if r.table('users').filter({'done': True}).count()run(conn) > 0: #if this is true surely we are looking at old data
+            if r.table('users').filter({'done': True}).count().run(conn) > 0: #if this is true surely we are looking at old data
                 for changes in r.table('users').filter({'done': True}).changes().run(conn): #post up here to check for changes
                     break #if anything changes than our stuff is updated (almost definitely)
 
