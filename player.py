@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
         if not self.last_dir:
             pass
         elif self.last_dir != dir:
-            self.frames_walked -= 8
+            self.frames_walked = 0
 
         self.frames_walked += 1
         if self.frames_walked < 10:
