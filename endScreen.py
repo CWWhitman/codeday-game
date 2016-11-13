@@ -1,5 +1,7 @@
 import pygame
 import joinGame
+import networking
+import editor
 
 BLACK =(0,0,0)
 WHITE =(255,255,255)
@@ -34,6 +36,7 @@ class MenuButton(pygame.sprite.Sprite):
 
 
 def main(winner):
+    
     pygame.init()
     screen = pygame.display.set_mode([900, 450])
 
@@ -50,31 +53,32 @@ def main(winner):
     done = False
 
     font = pygame.font.SysFont('Calibri', 30, True, False)
-    screen.blit(font.render(("Winner! : " + winner), True, BLACK), [400,10])
-
-    
+    screen.blit(font.render(("Winner! : " + winner), True, WHITE), [400,10])    
 
     startGameButton = MenuButton(0)
     activeSprites.add(startGameButton)
 
+    backgroundSprites.draw(screen)
+    activeSprites.draw(screen)
+ 
+
     while not done:
+
+        font = pygame.font.SysFont('Calibri', 30, True, False)
+        screen.blit(font.render(("Winner! : " + winner), True, WHITE), [350,100])
 
         event = pygame.event.poll()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
                 if startGameButton.rect.collidepoint(pygame.mouse.get_pos()):
-                    joinGame.main()
+                    networking.restartGame()
+                    editor.main()
                     pygame.quit()
 
         elif event.type == pygame.QUIT:
             done = True
-            
-        screen.fill(WHITE)
- 
-        backgroundSprites.draw(screen)
-        activeSprites.draw(screen)
- 
+        
         pygame.display.flip()
  
         clock.tick(60)
