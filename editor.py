@@ -124,19 +124,19 @@ def main():
     tiles = []
     allTiles = pygame.sprite.Group()
     
-    """for i in range(SIZE_X):
+    for i in range(SIZE_X):
         tilesRow = []
         for j in range(SIZE_Y):
             tile = Tile((i-1)*SIZE_X, (i-1)*SIZE_Y, 'blankBlock.png')
             tilesRow.append(tile)
             allTiles.add(tile)
-        tiles.append(tilesRow)"""
+        tiles.append(tilesRow)
 
-    #menu = Menu(0, 0)
+    menu = Menu(0, 0)
 
     clock = pygame.time.Clock()
 
-    #pygame.mouse.set_visible(True)
+    pygame.mouse.set_visible(True)
  
     done = False
 
