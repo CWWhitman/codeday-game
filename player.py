@@ -5,6 +5,7 @@ class Player(pygame.sprite.Sprite):
         super(Player, self).__init__()
         self.health = 2
         self.alive = True
+        self.above_land = None
 
         self.rect = pygame.Rect(x, y, 30, 30)
         self.vel_x, self.vel_y = 0.0, 0.0
@@ -13,9 +14,11 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = True
         self.jump_frame = 1
         self.jkp = False
-        self.holding_jump = False
+
+        self.frames_jumped = 0
 
         self.frames_walked = 0
+        self.last_dir = 0
 
 
     def spawn(self, x, y):
@@ -23,15 +26,11 @@ class Player(pygame.sprite.Sprite):
         self.pos_x, self.pos_y = x, y
 
     def jump(self):
-        if self.on_ground:
-            self.on_ground = False
-
-        self.vel_y += int(-(25 - self.jump_frame)/8)
-        if self.jump_frame > 20:
-            self.jump_frame = 1.0
-            self.holding_jump = False
-        else:
-            self.jump_frame += 1.0
+        self.frames_jumped += 1
+        self.vel_y += -5/self.frames_jumped
+        self.on_ground = False
+        if self.frames_jumped > 15:
+            self.frames_jumped = 0
 
     def apply_accel(self):
         self.vel_x += self.accl_x
@@ -44,43 +43,42 @@ class Player(pygame.sprite.Sprite):
 
     def gravity(self):
         if not self.on_ground:
-            self.accl_y = 1.0
+            self.accl_y = 1
 
     def move_to_floor(self, correction):
         self.rect.move_ip(0, -correction)
         self.accl_y, self.vel_y, self.on_ground = 0, 0, True
 
     def walk(self, dir):
+        if not self.last_dir:
+            pass
+        elif self.last_dir != dir:
+            self.frames_walked = 0
+
         self.frames_walked += 1
         if self.frames_walked < 10:
             speed = (self.frames_walked//1.25)*dir
         else:
             speed = 8*dir
-        self.rect.move_ip(speed, 0)
+        self.vel_x = speed
 
     def update(self):
         pygame.event.pump()
         k = pygame.key.get_pressed()
-        if k[pygame.K_UP]:
-            self.jkp = True
+        if k[pygame.K_UP] and (self.frames_jumped or self.on_ground):
+            self.jump()
         else:
-            self.jkp = False
+            self.frames_jumped = 0
+
         if k[pygame.K_LEFT]:
             self.walk(-1)
         elif k[pygame.K_RIGHT]:
             self.walk(1)
         else:
             self.frames_walked = 0
-
-        if self.on_ground and self.jkp:
-            self.holding_jump = True
-
-        if not self.jkp and self.holding_jump:
-            self.holding_jump = False
-
-        if (self.jkp and self.on_ground) or self.holding_jump:
-            self.jump()
-
+            self.last_dir = 0
+            if self.on_ground:
+                self.vel_x = 0
 
         self.apply_accel()
         self.apply_vel()

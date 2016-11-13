@@ -3,6 +3,7 @@ lev = map(list, level.l)
 import pygame, sys
 from player import *
 from pygame.locals import *
+from copy import deepcopy
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, color, pos):
@@ -41,7 +42,8 @@ class gameplay:
         tommy.on_ground = True
         self.players.add(tommy)
         pygame.display.update()
-
+    #todo, make underbelly collision
+    #todo, fix 3 way collision
     def mainloop(self):
         clock = pygame.time.Clock()
 
@@ -49,25 +51,49 @@ class gameplay:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
+                brec = deepcopy(a.rect)
+                a.rect.h = 15
+                a.rect.top = brec.top + 17
+                #pygame.draw.rect(self.screen, (255,255,0), a.rect)
+                if not pygame.sprite.spritecollideany(a, self.world):
+                    a.on_ground = False
+                    a.above_land = False
+                else:
+                    a.above_land = True
+                a.rect = brec
             intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
             for a in intd:
                 player, block = a,intd[a]
                 print player,block
-                if len(block) > 1:
+                yes = False
+                if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
                         r = block[0].rect.clip(player.rect)
                         r1 = block[1].rect.clip(player.rect)
                         blockf = r.union(r1)
-                else:
+                if len(block) in [3,4]:
+                    yes = True
+                    r1 = block[0].rect.clip(player.rect)
+                    r2 = block[1].rect.clip(player.rect)
+                    r3 = block[2].rect.clip(player.rect)
+                    # get all the recs
+                    # iterate through them sperately, correct any two of them not unioned
+                if len(block) == 1:
                     blockf = block[0].rect.clip(player.rect)
                 # blocks are
                 # deal with only one of the collided world blocks
                 # ltaer, deal with one, then check the other one and deal if needed
                 #pygame.draw.rect(self.screen, (255,255,0), blockf)
+                if yes:
+                    # 3way
+                    player.rect.x = player.rect.x - player.vel_x
+                    player.rect.y = player.rect.y - player.vel_y
+                    player.vel_y = player.vel_y - player.accl_y
+                    player.vel_x = player.vel_x - player.accl_x
                 if blockf.w > blockf.h:
                     #top/bottom int
                     player.vel_y = 0
-                    player.rect.y = player.rect.y - blockf.h
+                    player.rect.y = player.rect.y - (blockf.h if player.above_land else -1 * blockf.h)
                     player.on_ground = True
                 else:
                     #left/r intesection
