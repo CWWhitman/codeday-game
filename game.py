@@ -6,9 +6,14 @@ from pygame.locals import *
 from copy import deepcopy
 
 class Block(pygame.sprite.Sprite):
-    def __init__(self, color, pos):
+    def __init__(self, name, pos):
         super(Block, self).__init__()
-        self.rect = Rect(pos)
+        self.image = pygame.image.load(name)
+        self.name = name
+
+        self.rect = self.image.get_rect()
+        self.rect.y = pos[1]
+        self.rect.x = pos[0]
 
 class gameplay:
     """The Main PyMan Class - This class handles the main
@@ -31,16 +36,21 @@ class gameplay:
 
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
+        self.startPos = (0,200)
         for x, _ in enumerate(self.worldf):
             for y, char in enumerate(self.worldf[x]):
-                pos = (y * 30, x * 30, 30,30)
-                if int(char):
-                    color = (255,0,100)
-                    self.world.add(Block(color, pos))
-                else:
-                    color = (0,0,255)
-                pygame.draw.rect(self.background_screen, color, pos)
-        tommy = Player(0,200)
+                pos = (x * 30, y * 30)
+
+                if char not in ['res/blankBlock1.png', 'res/startBlock.png']:
+                    self.world.add(Block(char, pos))
+                if char == 'res/finishBlock.png':
+                    finishPos = pos
+                if char == 'res/startBlock.png':
+                    self.startPos = pos
+                
+                self.background_screen.blit(pygame.image.load(char), pos)
+        a,b = self.startPos
+        tommy = Player(a,b)
         tommy.on_ground = True
         self.players.add(tommy)
         pygame.display.update()
@@ -52,6 +62,10 @@ class gameplay:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
+                if a.rect.x > 900 or a.rect.x < 0 or a.rect.y > 450 or a.rect.y < 0:
+                    player.rect.x = self.startPos[0]
+                    player.rect.y = self.startPos[1]
+                
                 a.player_on_wall = False
                 brec = deepcopy(a.rect)
                 a.rect.h = 4
@@ -76,6 +90,12 @@ class gameplay:
             intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
             for a in intd:
                 player, block = a,intd[a]
+                a = [x.name for x in block]
+                if 'res/Spiky Wheel.png' in a:
+                    player.rect.x = self.startPos[0]
+                    player.rect.y = self.startPos[1]
+                if 'res/finishBlock.png' in a:
+                    pygame.quit()
                 yes = False
                 if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
