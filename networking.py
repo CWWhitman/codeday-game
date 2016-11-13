@@ -63,7 +63,7 @@ def getLevels():
     return Levels
 
 
-#returns list of positions as tuples, takes in our players position as a tuple (x,y)
+#returns list of positions as tuples, takes in our players position as a tuple (x,y,level)
 def updatePlayerPositions(playerPosition):
     conn = r.connect(settings.connectionSettings['ip'], int(settings.connectionSettings['port']))
     r.table('users').filter({'username' : settings.connectionSettings['user']}).update({'pos' : playerPosition}).run(conn)
@@ -75,7 +75,7 @@ def updatePlayerPositions(playerPosition):
            pass
         else:
             positions.append(user['pos'])
-        #This is the position of every user as a tuple (x,y)
+        #This is the position of every user as a tuple (x,y,level)
     return positions
 
 #called when the player finishes the round, takes in his time to finish and returns the winner of the round
