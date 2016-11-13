@@ -66,7 +66,7 @@ class Menu(pygame.sprite.Sprite):
 
         self.x = x
         
-        self.image = pygame.Surface([30, SIZE_Y])
+        self.image = pygame.Surface([30, SIZE_Y * 30])
         self.image.fill(BLACK)
  
         self.rect = self.image.get_rect()
@@ -75,12 +75,12 @@ class Menu(pygame.sprite.Sprite):
 
         menuTiles = pygame.sprite.Group()
         for i in range(len(blocks)):
-            if (i-1) == self.selected:
-                tile = Tile(x, (i-1) * SIZE_Y, blocksSelected[i-1])
+            if (i) == self.selected:
+                tile = Tile(x, (i) * 30, blocksSelected[i-1])
                 self.menuTileList.append(tile)
                 menuTiles.add(tile)
             else:
-                tile = Tile(x, (i-1) * SIZE_Y, blocks[i-1])
+                tile = Tile(x, (i) * 30, blocks[i-1])
                 self.menuTileList.append(tile)
                 menuTiles.add(tile)
 
@@ -88,9 +88,14 @@ class Menu(pygame.sprite.Sprite):
 
     def changeSelection(self, selected):
 
+        if selected < 0:
+            selected = 0
+        if selected > len(blocks):
+            selected = len(blocks) - 1
+
         self.selected = selected
         
-        self.image = pygame.Surface([30, SIZE_Y])
+        self.image = pygame.Surface([30, SIZE_Y * 30])
         self.image.fill(BLACK)
  
         self.rect = self.image.get_rect()
@@ -99,12 +104,12 @@ class Menu(pygame.sprite.Sprite):
 
         menuTiles = pygame.sprite.Group()
         for i in range(len(blocks)):
-            if (i-1) == selected:
-                tile = Tile(self.x, (i-1) * SIZE_Y, blocksSelected[i-1])
+            if (i) == selected:
+                tile = Tile(self.x, (i) * SIZE_Y, blocksSelected[i-1])
                 self.menuTileList.append(tile)
                 menuTiles.add(tile)
             else:
-                tile = Tile(self.x, (i-1) * SIZE_Y, blocks[i-1])
+                tile = Tile(self.x, (i) * SIZE_Y, blocks[i-1])
                 self.menuTileList.append(tile)
                 menuTiles.add(tile)
 
@@ -117,8 +122,13 @@ def main():
     
     pygame.display.set_caption('Editor')
 
-    background = Background()
     allSprites = pygame.sprite.Group()
+    menuGroup = pygame.sprite.Group()
+
+    menu = Menu(0, 0)
+    menuGroup.add(menu)
+
+    background = Background()
     allSprites.add(background)
 
     tiles = []
@@ -131,9 +141,6 @@ def main():
             tilesRow.append(tile)
             allTiles.add(tile)
         tiles.append(tilesRow)
-
-    menu = Menu(0, 0)
-    allSprites.add(menu)
 
     clock = pygame.time.Clock()
 
@@ -157,21 +164,22 @@ def main():
                     mousePressed = False
 
         elif event.type == pygame.KEYDOWN:
-            if event[1] == pygame.K_w:
-                menu.changeSelection(menu.selection-1)
+            if event.key == pygame.K_w:
+                menu.changeSelection(menu.selected-1)
 
-            if event[1] == pygame.K_s:
-                menu.changeSelection(menu.selection+1)
+            if event.key == pygame.K_s:
+                menu.changeSelection(menu.selected+1)
 
-        if pygame.mouse.get_pos()[0] >= (SIZE_X / 2):
+        if pygame.mouse.get_pos()[0] >= (SIZE_X / 2 * 30):
             menu.changeX(0)
         else:
-            menu.changeX(SIZE_X - 30)
+            menu.changeX((SIZE_X - 1) * 30)
 
         screen.fill(WHITE)
  
         allSprites.draw(screen)
         allTiles.draw(screen)
+        menuGroup.draw(screen)
  
         pygame.display.flip()
  
