@@ -14,7 +14,8 @@ class gameplay:
     """The Main PyMan Class - This class handles the main
     initialization and creating of the Game."""
 
-    def __init__(self, width=900,height=450):
+    def __init__(self, worldf,width=900,height=450):
+        self.worldf = worldf
         self.state = {"x": 12}
         pygame.init()
         pygame.display.set_caption('videogames')
@@ -29,8 +30,8 @@ class gameplay:
 
     def setupgame(self):
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
-        for x, _ in enumerate(lev):
-            for y, char in enumerate(lev[x]):
+        for x, _ in enumerate(self.worldf):
+            for y, char in enumerate(self.worldf[x]):
                 pos = (y * 30, x * 30, 30,30)
                 if int(char):
                     color = (255,0,100)
@@ -120,5 +121,5 @@ class gameplay:
             clock.tick(60)
 
 if __name__ == '__main__':
-    main = gameplay()
+    main = gameplay(lev)
     main.mainloop()
