@@ -24,8 +24,8 @@ class Player(pygame.sprite.Sprite):
         if self.on_ground:
             self.on_ground = False
 
-        self.vel_y += -(60 - self.jump_frame)/3
-        if self.jump_frame > 60:
+        self.vel_y += -(25 - self.jump_frame)/8
+        if self.jump_frame > 20:
             self.jump_frame = 1.0
             self.holding_jump = False
         else:
