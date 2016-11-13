@@ -164,22 +164,24 @@ def main():
         if event.type == pygame.QUIT:
                 done = True
         
-        if event.type == MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
                 mousePressed = True
 
-        elif event.type == MOUSEBUTTONUP:
+        elif event.type == pygame.MOUSEBUTTONUP:
             if pygame.mouse.get_pressed()[0]:
                     mousePressed = False
 
-        elif event.type == KEYDOWN:
-            if event[1] == K_w:
+        elif event.type == pygame.KEYDOWN:
+            if event[1] == pygame.K_w:
                 menu.changeSelection(menu.selection-1)
 
-            if event[1] == K_s:
+            if event[1] == pygame.K_s:
                 menu.changeSelection(menu.selection+1)
 
         if pygame.mouse.pos()[0] >= (SIZE_X / 2):
             menu.changeX(0)
         else:
             menu.changeX(SIZE_X - 30)
+
+        if mousePresse
