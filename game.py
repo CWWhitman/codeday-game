@@ -34,15 +34,14 @@ class gameplay:
                 pos = (y * 30, x * 30, 30,30)
                 pygame.draw.rect(self.bscreen, color, pos)
 
-        tommy = Player()
-        tommy.on_ground = False
-        tommy.vel_x = 1
+        tommy = Player(0,200)
+        tommy.on_ground = True
         self.players.add(tommy)
-        tommy.jump()
         pygame.display.update()
 
     def mainloop(self):
         clock = pygame.time.Clock()
+        pygame.time.delay(1000)
         while True:
             self.screen.blit(self.bscreen, (0,0))
             for a in self.players:
