@@ -1,5 +1,5 @@
 import pygame
-#import networking
+import networking
 from game import *
 
 BLACK = (0, 0, 0)
@@ -242,7 +242,7 @@ def main():
     font = pygame.font.SysFont('Calibri', 50, True, False)
     screen.blit(font.render("Waiting for players...", True, RED), [0, 0])
     pygame.display.flip()
-    #levelBuilt(convirtList(tiles))
+    networking.levelBuilt(convirtList(tiles))
     game1 = gameplay()
     game1.mainloop()
 
