@@ -10,6 +10,8 @@ PURPLE = (255, 0, 255)
 SIZE_X = 50
 SIZE_Y = 25
 
+blocks = ['spikes.png']
+
 class Background(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -41,22 +43,32 @@ class Tile(pygame.sprite.Sprite):
 
         self.image = pygame.image.load(name)
 
-    def getName(self)
+    def getName(self):
 
         return self.name
 
-class menu(pygame.sprite.Sprite)
+class menu(pygame.sprite.Sprite):
 
-    def __init__(self, x, y):
+    def __init__(self, x):
 
         pygame.sprite.Sprite.__init__()
         
+        self.changeX(x)
+
+    def changeX(self, x):
         self.image = pygame.Surface([30, SIZE_Y])
-        self.image.fill(color)
+        self.image.fill(BLACK)
  
         self.rect = self.image.get_rect()
-        self.rect.y = y
+        self.rect.y = 0
         self.rect.x = x
+
+        menuTiles = pygame.sprite.Group()
+        for i in range(len(blocks)):
+            tile = Tile(x, (i-1) * SIZE_Y, blocks[i-1])
+            menuTiles.add(tile)
+
+        menuTiles.draw(self.image)
 
 def main():
 
@@ -95,9 +107,7 @@ def main():
             if event.type == pygame.QUIT:
                 done = True
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed()[0]: && firstTime
-                    tilePos = pygame.mouse.pos()
+            
 
         
                     
