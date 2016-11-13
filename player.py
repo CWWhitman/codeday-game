@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
         if self.on_ground:
             self.on_ground = False
 
-        self.vel_y += 2/self.jump_frame
+        self.vel_y += -2/self.jump_frame
         if self.jump_frame > 15:
             self.jump_frame = 1.0
             self.holding_jump = False
@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         
     def gravity(self):
         if not self.on_ground:
-            self.accl_y = -1.0
+            self.accl_y = 1.0
 
     def update(self):
 
