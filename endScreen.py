@@ -74,7 +74,6 @@ def main(winner):
                 if startGameButton.rect.collidepoint(pygame.mouse.get_pos()):
                     networking.restartGame()
                     editor.main()
-                    pygame.quit()
 
         elif event.type == pygame.QUIT:
             done = True
