@@ -39,6 +39,7 @@ class gameplay:
         pygame.display.update()
 
     def mainloop(self):
+        clock = pygame.time.Clock()
         while True:
             for a in self.players:
                 a.update()
@@ -47,6 +48,8 @@ class gameplay:
                 if event.type == pygame.QUIT:
                     sys.exit()
             pygame.display.update()
+            clock.tick(60)
+
 if __name__ == '__main__':
     main = gameplay()
     main.mainloop()
