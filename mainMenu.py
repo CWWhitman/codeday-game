@@ -1,7 +1,9 @@
 import pygame
 import joinGame
 
-buttons = ['res/squareBlock.png']
+WHITE = (255, 255, 255)
+
+buttons = ['res/startgamee.png']
 title = 'title.png'
 
 class Background(pygame.sprite.Sprite):
@@ -34,35 +36,42 @@ def main():
 
     pygame.display.set_caption('Menu')
 
-    allSprites = pygame.sprite.Group()
+    backgroundSprites = pygame.sprite.Group()
+    activeSprites = pygame.sprite.Group()
 
     background = Background()
-    allSprites.add(background)
+    backgroundSprites.add(background)
 
     clock = pygame.time.Clock()
 
     done = False
 
     startGameButton = MenuButton(0)
+    activeSprites.add(startGameButton)
 
     while not done:
 
         event = pygame.event.poll()
 
-        if event.type == pygame.MOUSEBUTTON:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
                 if startGameButton.rect.collidepoint(pygame.mouse.get_pos()):
-                    print 'join game'
+                    joinGame.main()
+                    pygame.quit()
+
+        elif event.type == pygame.QUIT:
+            done = True
             
         screen.fill(WHITE)
  
-        allSprites.draw(screen)
-        allTiles.draw(screen)
-        menuGroup.draw(screen)
+        backgroundSprites.draw(screen)
+        activeSprites.draw(screen)
  
         pygame.display.flip()
  
         clock.tick(60)
+
+    pygame.quit()
 
 if __name__ == "__main__":
     main()
