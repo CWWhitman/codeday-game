@@ -3,6 +3,7 @@ lev = map(list, level.l)
 import pygame, sys
 from player import *
 from pygame.locals import *
+from copy import deepcopy
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, color, pos):
@@ -50,10 +51,16 @@ class gameplay:
             self.screen.blit(self.background_screen, (0,0))
             for a in self.players:
                 a.update()
-                a.rect.move_ip(0,2)
+                brec = deepcopy(a.rect)
+                a.rect.h = 15
+                a.rect.top = brec.top + 17
+                #pygame.draw.rect(self.screen, (255,255,0), a.rect)
                 if not pygame.sprite.spritecollideany(a, self.world):
                     a.on_ground = False
-                a.rect.move_ip(0,-2)
+                    a.above_land = False
+                else:
+                    a.above_land = True
+                a.rect = brec
             intd = pygame.sprite.groupcollide(self.players, self.world, False, False)
             for a in intd:
                 player, block = a,intd[a]
@@ -86,7 +93,7 @@ class gameplay:
                 if blockf.w > blockf.h:
                     #top/bottom int
                     player.vel_y = 0
-                    player.rect.y = player.rect.y - blockf.h
+                    player.rect.y = player.rect.y - (blockf.h if player.above_land else -1 * blockf.h)
                     player.on_ground = True
                 else:
                     #left/r intesection

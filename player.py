@@ -5,6 +5,7 @@ class Player(pygame.sprite.Sprite):
         super(Player, self).__init__()
         self.health = 2
         self.alive = True
+        self.above_land = None
 
         self.rect = pygame.Rect(x, y, 30, 30)
         self.vel_x, self.vel_y = 0.0, 0.0
@@ -14,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.jump_frame = 1
         self.jkp = False
 
-        self.frames_jumped = 0 
+        self.frames_jumped = 0
 
         self.frames_walked = 0
         self.last_dir = 0
