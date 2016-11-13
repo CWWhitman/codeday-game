@@ -38,7 +38,6 @@ def main():
     done = False
 
     i = 0
-    networkData = [0, 0, 0]
 
     while not done:
 
@@ -72,7 +71,11 @@ def main():
 
         if i == 3:
             #print ip.value, port.value, name.value
-            print i
+            font = pygame.font.SysFont('Calibri', 30, True, False)
+            screen.blit(font.render(("IP = " + ip.value), True, BLACK), [0,0])
+            screen.blit(font.render(("port = " + port.value), True, BLACK), [0,50])
+            screen.blit(font.render(("name = " + name.value), True, BLACK), [0,100])
+            screen.blit(font.render("Press Enter to continue, Escape to go back", True, BLACK), [0,150])
 
         if i == 4:
             settings.connectionSettings['ip'] = ip.value
