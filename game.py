@@ -42,6 +42,7 @@ class gameplay:
         self.idler = pygame.transform.flip(self.idle, True, False)
 
     def setupgame(self):
+        self.background_screen = pygame.image.load('res/scaledbg.png')
         self.text = self.basicfont.render("testing memes", True, (0,0,0), (0,0,255))
         self.players.empty()
         self.world.empty()
