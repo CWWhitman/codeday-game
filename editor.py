@@ -85,38 +85,34 @@ def main():
     pygame.mouse.set_visible(True)
 
     tilePos = (0,0)
-    firstTime = True
+    mousePressed = False
  
     done = False
 
-    while not done:
+##    while not done:
+##
+##        for event in pygame.event.get():
+##            if event.type == pygame.QUIT:
+##                done = True
+##
+##            if event.type == pygame.MOUSEBUTTONDOWN:
+##                if pygame.mouse.get_pressed()[0]:
+##                    mousePressed = True
+##                    #tilePos = pygame.mouse.pos()
+##
+##            if event.type == pygame.MOUSEBUTTONUP:
+##                if pygame.mouse.get_pressed()[0]:
+##                    mousePressed = False
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                done = True
+        while not done:
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed()[0]: && firstTime
-                    tilePos = pygame.mouse.pos()
+            if pygame.event.poll().type == MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    mousePressed = True
 
-        
-                    
+            if pygame.event.poll().type == MOUSEBUTTONUP:
+                if pygame.mouse.get_pressed()[0]:
+                    mousePressed = False
 
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+            if pygame.event.poll().type == MOUSEBUTTONUP:
+                
