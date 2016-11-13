@@ -135,6 +135,7 @@ class Player(pygame.sprite.Sprite):
         
         if self.on_ground:
             if not self.vel_x:
+                pass
                 #self.state = "idle"
         else:
             if self.vel_y < 0:
