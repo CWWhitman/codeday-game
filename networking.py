@@ -105,8 +105,7 @@ def roundFinished(timeToFinish):
         else:
             time.sleep(1)
         waiting = False
-           
-    return winner
+        return winner
 
 
 #if the same crew of people want to play again call this, and then jump into the level editor
