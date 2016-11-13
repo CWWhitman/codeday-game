@@ -6,6 +6,7 @@ from pygame.locals import *
 from copy import deepcopy
 import networking
 import time
+import endScreen
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, name, pos):
@@ -112,7 +113,7 @@ class gameplay:
                         self.currentWorld += 1
                         self.setupgame()
                     else:
-                        print networking.roundFinished(time.time() - self.startTime)
+                        endScreen.main(networking.roundFinished(time.time() - self.startTime))
                 yes = False
                 if len(block) == 2:
                     if (block[0].rect.top == block[1].rect.top) or (block[1].rect.left == block[0].rect.left):
@@ -159,6 +160,8 @@ class gameplay:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    pygame.display.quit()
+                    pygame.quit()
                     sys.exit()
                     pygame.exit()
             pygame.display.update()

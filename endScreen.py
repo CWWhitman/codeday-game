@@ -1,5 +1,5 @@
 import pygame
-import joinGame,
+import joinGame
 
 WHITE = (255, 255, 255)
 
