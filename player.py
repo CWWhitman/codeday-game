@@ -2,16 +2,16 @@ import pygame
 
 jump_key_pressed = False
 
-class Player:
+class Player(pygame.sprite.Sprite):
     def __init__(self):
         self.health = 2
         self.alive = True
 
-        self.hit_x, self.hit_y = 30, 30
-        self.draw_x, self.draw_y = 30, 30
-        self.pos_x, self.pos_y = 0, 0
-        self.vel_x, self.vel_y = 0, 0
-        self.accl_x, self.accl_y = 0, 0
+        self.hit_x, self.hit_y = 30.0, 30.0
+        self.draw_x, self.draw_y = 30.0, 30.0
+        self.pos_x, self.pos_y = 0.0, 0.0
+        self.vel_x, self.vel_y = 0.0, 0.0
+        self.accl_x, self.accl_y = 0.0, 0.0
 
         self.on_ground = True
         self.jump_frame = 1
@@ -21,31 +21,33 @@ class Player:
     def spawn(self, x, y):
         self.alive = True
         self.pos_x, self.pos_y = x, y
-        
+
     def jump(self):
         if self.on_ground:
             self.on_ground = False
 
         self.accl_y += 2/self.jump_frame
         if self.jump_frame > 15:
-            self.jump_frame = 1
+            self.jump_frame = 1.0
             self.holding_jump = False
         else:
-            self.jump_frame += 1
+            self.jump_frame += 1.0
 
     def apply_accel(self):
         self.vel_x += self.accl_x
         self.vel_y += self.accl_y
         if self.on_ground:
-            self.vel_y, self.accl_y = 0, 0
-    
+            self.vel_y, self.accl_y = 0.0, 0.0
+
     def apply_vel(self):
         self.pos_x += self.vel_x
         self.pos_y += self.vel_y
 
     def gravity(self):
         if not self.on_ground:
-            self.accl_y -= 1
+            self.accl_y -= 1.0
+    def debug(self):
+        print "d", self.pos_x, self.pos_y, self.vel_x, self.vel_y, self.accl_x, self.accl_y
 
     def update(self):
         self.apply_accel()
@@ -62,4 +64,3 @@ class Player:
 #def show():
 #    print tommy.vel_x, tommy.vel_y
 #    print tommy.accl_x, tommy.accl_y
-    
