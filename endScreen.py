@@ -1,5 +1,5 @@
 import pygame
-import joinGame
+import joinGame,
 
 WHITE = (255, 255, 255)
 
@@ -30,19 +30,9 @@ class MenuButton(pygame.sprite.Sprite):
         self.rect.y = 400
         self.rect.x = 400
 
-class MenuTitle(pygame.sprite.Sprite):
 
-    def __init__(self, title):
-        """Constructor"""
 
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(title)
-
-        self.rect = self.image.get_rect()
-        self.rect.y = 10
-        self.rect.x = 100
-    
-def main():
+def main(winners):
     pygame.init()
     screen = pygame.display.set_mode([900, 450])
 
@@ -58,10 +48,14 @@ def main():
 
     done = False
 
-    menuTitle = MenuTitle(title)
+    font = pygame.font.SysFont('Calibri', 30, True, False)
+    screen.blit(font.render(("1st: " + winners[0]), True, BLACK), [400,10])
+    screen.blit(font.render(("2nd: " + winners[1]), True, BLACK), [400,30])
+    screen.blit(font.render(("3rd: " + winners[2]), True, BLACK), [400,50])
+    
+
     startGameButton = MenuButton(0)
     activeSprites.add(startGameButton)
-    activeSprites.add(menuTitle)
 
     while not done:
 
