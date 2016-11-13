@@ -27,7 +27,7 @@ class gameplay:
         self.startTime = time.time()
         self.state = {"x": 12}
         pygame.init()
-        pygame.display.set_caption('videogames')
+        pygame.display.set_caption('CPG')
         self.basicfont = pygame.font.SysFont(None, 48)
         self.width = width
         self.height = height

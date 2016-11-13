@@ -120,7 +120,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode([SIZE_X * 30, SIZE_Y * 30])
     
-    pygame.display.set_caption('Editor')
+    pygame.display.set_caption('CPG.e')
 
     allSprites = pygame.sprite.Group()
     menuGroup = pygame.sprite.Group()
