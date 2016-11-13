@@ -2,16 +2,12 @@ import pygame
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
-PURPLE = (255, 0, 255)
 
 SIZE_X = 30
 SIZE_Y = 15
 
-blocks = ['res/triangleBlock.png', 'res/squareBlock.png']
-blocksSelected = ['res/triangleBlockSelected.png', 'res/squareBlockSelected.png']
+blocks = ['res/blankBlock1.png', 'res/triangleBlock.png', 'res/squareBlock.png']
+blocksSelected = ['res/blankBlockSelected.png', 'res/triangleBlockSelected.png', 'res/squareBlockSelected.png']
 
 class Background(pygame.sprite.Sprite):
 
@@ -43,14 +39,30 @@ class Tile(pygame.sprite.Sprite):
     def changeImage(self, name):
 
         self.image = pygame.image.load(name)
+        self.name = name
 
     def getName(self):
 
         return self.name
 
+class Clear(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.Surface([120, 60])
+        self.image.fill(WHITE)
+
+        self.rect = self.image.get_rect()
+        self.rect.y = 195
+        self.rect.x = 390
+
+        font = pygame.font.SysFont('Calibri', 25, True, False)
+        self.image.blit(font.render("Clear all?", True, BLACK), [10, 5])
+        self.image.blit(font.render("  Y        N", True, BLACK), [10, 35])
+
 class Menu(pygame.sprite.Sprite):
 
-    menuTileList = []
     x = 0
     selected = 0
 
@@ -76,13 +88,17 @@ class Menu(pygame.sprite.Sprite):
         menuTiles = pygame.sprite.Group()
         for i in range(len(blocks)):
             if (i) == self.selected:
-                tile = Tile(x, (i) * 30, blocksSelected[i-1])
-                self.menuTileList.append(tile)
+                tile = Tile(0, (i) * 30, blocksSelected[i])
                 menuTiles.add(tile)
             else:
-                tile = Tile(x, (i) * 30, blocks[i-1])
-                self.menuTileList.append(tile)
+                tile = Tile(0, (i) * 30, blocks[i])
                 menuTiles.add(tile)
+
+        font = pygame.font.SysFont('Calibri', 13, True, False)
+        self.image.blit(font.render("up-k", True, WHITE), [0, 370])
+        self.image.blit(font.render("down", True, WHITE), [0, 400])
+        self.image.blit(font.render("-s", True, WHITE), [0, 410])
+        self.image.blit(font.render("clr-c", True, WHITE), [0, 440])
 
         menuTiles.draw(self.image)
 
@@ -90,30 +106,10 @@ class Menu(pygame.sprite.Sprite):
 
         if selected < 0:
             selected = 0
-        if selected > len(blocks):
-            selected = len(blocks) - 1
+        if selected > len(blocks) - 1:
+            selected = (len(blocks) - 1)
 
         self.selected = selected
-        
-        self.image = pygame.Surface([30, SIZE_Y * 30])
-        self.image.fill(BLACK)
- 
-        self.rect = self.image.get_rect()
-        self.rect.y = 0
-        self.rect.x = self.x
-
-        menuTiles = pygame.sprite.Group()
-        for i in range(len(blocks)):
-            if (i) == selected:
-                tile = Tile(self.x, (i) * SIZE_Y, blocksSelected[i-1])
-                self.menuTileList.append(tile)
-                menuTiles.add(tile)
-            else:
-                tile = Tile(self.x, (i) * SIZE_Y, blocks[i-1])
-                self.menuTileList.append(tile)
-                menuTiles.add(tile)
-
-        menuTiles.draw(self.image)
 
 def main():
 
@@ -127,6 +123,7 @@ def main():
 
     menu = Menu(0, 0)
     menuGroup.add(menu)
+    clear = Clear()
 
     background = Background()
     allSprites.add(background)
@@ -146,6 +143,8 @@ def main():
     
     clock = pygame.time.Clock()
 
+    clearing = False;
+
     pygame.mouse.set_visible(True)
     mousePressed = False
  
@@ -161,7 +160,6 @@ def main():
         mouseY = int(round(pygame.mouse.get_pos()[1]/30))
         if mouseY > 14:
             mouseY = 14
-        print mouseX, mouseY
         activeTile = tiles[mouseX][mouseY]
 
         if event.type == pygame.QUIT:
@@ -181,6 +179,33 @@ def main():
             if event.key == pygame.K_s:
                 menu.changeSelection(menu.selected+1)
 
+            if event.key == pygame.K_j:
+                myList = convirtList(tiles)
+                for x in range(SIZE_X):
+                    print myList[x]
+
+            if event.key == pygame.K_c:
+                menuGroup.add(clear)
+                clearing = True
+
+            if event.key == pygame.K_n and clearing:
+                menuGroup.remove(clear)
+                clearing = False
+
+            if event.key == pygame.K_y and clearing:
+                menuGroup.remove(clear)
+                tilesNew = []
+                allTiles.empty()
+                for i in range(SIZE_X):
+                    tilesRow = []
+                    for j in range(SIZE_Y):
+                        tile = Tile((i)*30, (j)*30, 'res/blankBlock1.png')
+                        tilesRow.append(tile)
+                        allTiles.add(tile)
+                    tilesNew.append(tilesRow)
+                tiles = tilesNew
+                clearing = False
+
         if pygame.mouse.get_pos()[0] >= (SIZE_X / 2 * 30):
             menu.changeX(0)
         else:
@@ -188,8 +213,6 @@ def main():
 
         if mousePressed:
             activeTile.changeImage(blocks[menu.selected])
-
-        screen.fill(WHITE)
  
         allSprites.draw(screen)
         allTiles.draw(screen)
@@ -200,6 +223,16 @@ def main():
         clock.tick(60)
 
     pygame.quit()
+
+def convirtList(inputList):
+    returnList = []
+    for i in range(SIZE_X):
+        returnListRow = []
+        for j in range(SIZE_Y):
+            tile = inputList[i][j]
+            returnListRow.append(tile.getName())
+        returnList.append(returnListRow)
+    return returnList
 
 if __name__ == "__main__":
     main()
