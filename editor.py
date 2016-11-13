@@ -184,7 +184,7 @@ def main():
             if event.key == pygame.K_s:
                 menu.changeSelection(menu.selected+1)
 
-            if event.key == pygame.K_SPACE:
+            if start and end and event.key == pygame.K_SPACE:
                 done = True
 
             if event.key == pygame.K_c:
