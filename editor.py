@@ -9,8 +9,8 @@ RED = (255, 0, 0)
 SIZE_X = 30
 SIZE_Y = 15
 
-blocks = ['res/blankBlock1.png', 'res/triangleBlock.png', 'res/Wall.png', 'res/startBlock.png', 'res/finishBlock.png']
-blocksSelected = ['res/blankBlockSelected.png', 'res/triangleBlockSelected.png', 'res/Wall Select.png',
+blocks = ['res/blankBlock1.png', 'res/Spiky Wheel.png', 'res/Wall.png', 'res/startBlock.png', 'res/finishBlock.png']
+blocksSelected = ['res/blankBlockSelected.png', 'res/SpikyWheelSelect.png', 'res/Wall Select.png',
                   'res/startBlockSelected.png', 'res/finishBlockSelected.png']
 
 class Background(pygame.sprite.Sprite):
@@ -242,11 +242,11 @@ def main():
     font = pygame.font.SysFont('Calibri', 50, True, False)
     screen.blit(font.render("Waiting for players...", True, RED), [0, 0])
     pygame.display.flip()
-    networking.levelBuilt(convirtList(tiles))
-    game1 = gameplay()
+    #networking.levelBuilt(convirtList(tiles))
+    game1 = gameplay(convertList(tiles))
     game1.mainloop()
 
-def convirtList(inputList):
+def convertList(inputList):
     returnList = []
     for i in range(SIZE_X):
         returnListRow = []
