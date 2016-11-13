@@ -242,8 +242,8 @@ def main():
     font = pygame.font.SysFont('Calibri', 50, True, False)
     screen.blit(font.render("Waiting for players...", True, RED), [0, 0])
     pygame.display.flip()
-    #networking.levelBuilt(convirtList(tiles))
-    game1 = gameplay(convertList(tiles))
+    networking.levelBuilt(convirtList(tiles))
+    game1 = gameplay()
     game1.mainloop()
 
 def convertList(inputList):
