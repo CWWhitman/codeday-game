@@ -21,7 +21,7 @@ class gameplay:
     """The Main PyMan Class - This class handles the main
     initialization and creating of the Game."""
 
-    def __init__(self,width=900,height=450):
+    def __init__(self):
         self.worldf = networking.getLevels()
         self.currentWorld = 0
         self.startTime = time.time()
@@ -29,10 +29,10 @@ class gameplay:
         pygame.init()
         pygame.display.set_caption('CPG')
         self.basicfont = pygame.font.SysFont(None, 48)
-        self.width = width
-        self.height = height
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        self.background_screen = pygame.Surface((self.width, self.height))
+        #self.width = width
+        #self.height = height
+        self.screen = pygame.display.set_mode((900, 450))
+        self.background_screen = pygame.image.load('res/scaledbg.png')
         self.players = pygame.sprite.Group()
         self.world = pygame.sprite.Group()
         self.setupgame()
