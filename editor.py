@@ -7,8 +7,8 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 PURPLE = (255, 0, 255)
 
-SIZE_X = 50
-SIZE_Y = 25
+SIZE_X = 30
+SIZE_Y = 15
 
 blocks = ['triangleBlock.png', 'squareBlock.png']
 blocksSelected = ['triangleBlockSelected.png', 'squareBlockSelected.png']
@@ -19,7 +19,7 @@ class Background(pygame.sprite.Sprite):
         """ Constructor function """
  
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('bg.png')
+        self.image = pygame.image.load('scaledbg.png')
 
         self.rect = self.image.get_rect()
         self.rect.y = 0
