@@ -32,7 +32,7 @@ class MenuButton(pygame.sprite.Sprite):
 
 
 
-def main(winners):
+def main(winner):
     pygame.init()
     screen = pygame.display.set_mode([900, 450])
 
@@ -49,9 +49,8 @@ def main(winners):
     done = False
 
     font = pygame.font.SysFont('Calibri', 30, True, False)
-    screen.blit(font.render(("1st: " + winners[0]), True, BLACK), [400,10])
-    screen.blit(font.render(("2nd: " + winners[1]), True, BLACK), [400,30])
-    screen.blit(font.render(("3rd: " + winners[2]), True, BLACK), [400,50])
+    screen.blit(font.render(("Winner! : " + wwinner), True, BLACK), [400,10])
+
     
 
     startGameButton = MenuButton(0)
